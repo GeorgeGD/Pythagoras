@@ -1,4 +1,5 @@
-﻿var ShapesGame = {
+﻿//Shapes game - Veselin Smokov
+var ShapesGame = {
 		version: 2,
 		selectionCount: 0,
 		maxSize: 6,
@@ -514,7 +515,7 @@
 			this.gameOverStatus = 0;
 			if (this.maxSize < 3) { this.maxSize = 3; }
 			
-			game.state.start("MainGameState");
+			game.state.start('MainGame');
 		},
 		
 		ReplayButton_Over: function () 
@@ -636,7 +637,7 @@
 			
 			game.add.tween(this.prize).to( { angle: 360 }, 2000, Phaser.Easing.Linear.None, true, 1000);
 			game.add.tween(this.prize).to( { x: -100-this.prize.width, y: this.prize.y }, 2000, Phaser.Easing.Linear.None, true, 1000);
-			game.time.events.add(Phaser.Timer.SECOND * 1.5, Startthis.cracking, this);
+			game.time.events.add(Phaser.Timer.SECOND * 1.5, this.Startcracking, this);
 
 		},
 

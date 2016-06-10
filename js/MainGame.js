@@ -1,23 +1,35 @@
+/*
+MainGame state - represents the campaign viewport
 
-var game = new Phaser.Game(1024, 672, Phaser.CANVAS,'');
-
+Upkeep functions after MainGame
+*/
 var MainGame = {
 
 	preload: function () {
 
-		game.load.image('canvas', 'assets/mockups/MainGame.jpg');
 	},
 
 	create: function () {
 
 		game.add.image(0, 0, 'canvas');
+		HUDbar = game.add.sprite(0, 0, 'HUD_bar');
+		HUDbar.fixedToCamera = true;
+
+		btnMenu = game.add.button(10, 10, 'btnMenu');
+		btnMenu.fixedToCamera = true;
+
+		btnLevel1 = game.add.button(233, 192, 'btnEasy', loadLevel);
+		btnLevel2 = game.add.button(817, 114, 'btnMedium', loadLevel);
+		btnLevel3 = game.add.button(1552, 381, 'btnHard', loadLevel);
 	},
 
 	update: function () {
 
+
 	}
 };
 
-game.state.add('MainGameState', MainGame);
-game.state.add('ShapesState', ShapesGame);
-game.state.start('ShapesState');
+function loadLevel () {
+
+	game.state.start('ShapesGame');
+}
