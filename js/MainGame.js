@@ -20,4 +20,4 @@ var MainGame = {
 
 game.state.add("MainGameState", MainGame);
 game.state.add("ShapesState", ShapesGame);
-game.state.start("ShapesState");
+game.state.start("MainGameState");
