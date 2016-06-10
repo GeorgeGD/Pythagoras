@@ -32,26 +32,26 @@
 			var level = parseInt(game.net.getQueryString('l'));
 			if (!(isNaN(level))) {  this.LoadLevelSettings(level); }
 			
-			game.load.audio('collect', '/_assets/Sound/collect.wav?v=' + this.version);
-			game.load.audio('gameover', '/_assets/Sound/gameover.wav?v=' + this.version);
-			game.load.audio('success', '/_assets/Sound/gamecomplete.wav?v=' + this.version);
-			game.load.audio('error', '/_assets/Sound/error.wav?v=' + this.version);
-			game.load.audio('earthquake', '/_assets/Sound/earthquake.wav?v=' + this.version);
-			game.load.audio('rock2', '/_assets/Sound/rock2.wav?v=' + this.version);
+			game.load.audio('collect', '_assets/Sound/collect.wav?v=' + this.version);
+			game.load.audio('gameover', '_assets/Sound/gameover.wav?v=' + this.version);
+			game.load.audio('success', '_assets/Sound/gamecomplete.wav?v=' + this.version);
+			game.load.audio('error', '_assets/Sound/error.wav?v=' + this.version);
+			game.load.audio('earthquake', '_assets/Sound/earthquake.wav?v=' + this.version);
+			game.load.audio('rock2', '_assets/Sound/rock2.wav?v=' + this.version);
 			
-            game.load.image('box', '/_assets/box.png?v=' + this.version);
-            game.load.image('white', '/_assets/white.png?v=' + this.version);
-            game.load.image('replay', '/_assets/Replay.png?v=' + this.version);
-            game.load.image('box_fill', '/_assets/box_fill.png?v=' + this.version);
-            game.load.image('prize', '/_assets/Skins/' + this.LevelSkin + '/Prize.png?v=' + this.version);
-            game.load.image('prize2', '/_assets/Skins/' + this.LevelSkin + '/Prize2.png?v=' + this.version);
+            game.load.image('box', '_assets/box.png?v=' + this.version);
+            game.load.image('white', '_assets/white.png?v=' + this.version);
+            game.load.image('replay', '_assets/Replay.png?v=' + this.version);
+            game.load.image('box_fill', '_assets/box_fill.png?v=' + this.version);
+            game.load.image('prize', '_assets/Skins/' + this.LevelSkin + '/Prize.png?v=' + this.version);
+            game.load.image('prize2', '_assets/Skins/' + this.LevelSkin + '/Prize2.png?v=' + this.version);
 			
-			for (var ti = 1; ti <=7; ti++) { game.load.image('Layer_' + ti , '/_assets/Skins/' + this.LevelSkin + '/Layer_' + ti + '.png?v=' + this.version); }	
-			for (var ti = 1; ti <=7; ti++) { game.load.image('tetris_0' + ti , '/_assets/Tetris/tetris_pic_0' + ti + '.png?v=' + this.version); }	
-			for (var ti = 1; ti <=16; ti++) { game.load.image('stoneCube_' + ti , '/_assets/Stone_cube/Stone_cube_' + ti + '.png?v=' + this.version); }
+			for (var ti = 1; ti <=7; ti++) { game.load.image('Layer_' + ti , '_assets/Skins/' + this.LevelSkin + '/Layer_' + ti + '.png?v=' + this.version); }	
+			for (var ti = 1; ti <=7; ti++) { game.load.image('tetris_0' + ti , '_assets/Tetris/tetris_pic_0' + ti + '.png?v=' + this.version); }	
+			for (var ti = 1; ti <=16; ti++) { game.load.image('stoneCube_' + ti , '_assets/Stone_cube/Stone_cube_' + ti + '.png?v=' + this.version); }
 			
             game.load.spritesheet('moveWall', '/_assets/WallMoving.ss.png?v=' + this.version, 683, 680, 11);
-            game.load.spritesheet('crack', '/_assets/CrackSprite.png?v=' + this.version, 46, 670, 12);
+            game.load.spritesheet('crack', '_assets/CrackSprite.png?v=' + this.version, 46, 670, 12);
 
         },
 

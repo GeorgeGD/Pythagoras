@@ -5,7 +5,7 @@ var MainGame = {
 
 	preload: function () {
 
-		game.load.image("canvas", "/assets/mockups/MainGame.jpg");
+		game.load.image("canvas", "assets/mockups/MainGame.jpg");
 	},
 
 	create: function () {
