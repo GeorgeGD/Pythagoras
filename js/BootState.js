@@ -9,22 +9,17 @@ var BootState = {
 		//load loadingBar files
 		game.load.image('bootScreen','assets/loading_mockup.jpg');
 		game.load.image('loadingBar','assets/bar_mockup.jpg');
-
-		//json data
+		//load json data
 		game.load.json('levels','assets/Levels.json');
-		
+
 		//set game settings here
 		game.input.maxPointers = 1;
 		game.input.addPointer();
 	},
 
 	create: function () {
-		
+
 		//go to 'Preload' state
 		game.state.start('Preload');
 	},
-
-	update: function () {
-
-	}
 }

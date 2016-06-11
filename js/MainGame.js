@@ -5,10 +5,6 @@ Upkeep functions after MainGame
 */
 var MainGame = {
 
-	preload: function () {
-
-	},
-
 	create: function () {
 
 		//set world bounds and ad canvas image
@@ -45,7 +41,7 @@ var MainGame = {
 
 function callPopUp (btn) {
 
-
+	//show a popup for the pressed button
 	lvlManager.loadLevel(btn.name);
 }
 
