@@ -22,6 +22,11 @@ var MainGame = {
 		btnLevel1 = game.add.button(233, 192, 'btnEasy', loadLevel);
 		btnLevel2 = game.add.button(817, 114, 'btnMedium', loadLevel);
 		btnLevel3 = game.add.button(1552, 381, 'btnHard', loadLevel);
+
+		game.input.onDown.add(function() {
+			console.log('pointer is down');
+			this.lastposX = game.input.activePointer.x;
+		}, this);
 	},
 
 	update: function () {
@@ -29,9 +34,10 @@ var MainGame = {
 		//set camera movement
 		pointer = game.input.activePointer;
 		if (pointer.isDown) {
-			game.camera.x += previousX-pointer.x;
+			game.camera.x += this.lastposX-pointer.x;
+			this.lastposX = pointer.x;
 		}
-		previousX = pointer.x;
+		
 	}
 };
 
