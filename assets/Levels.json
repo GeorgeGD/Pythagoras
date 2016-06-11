@@ -1,0 +1,34 @@
+[
+	{
+		"label":"Level1",
+		"area": 1,
+		"difficulty":"Easy",
+		"score": 0,
+		"status": "open",
+		"rooms":["ShapesGame"],
+		"btnX": 233, 
+		"btnY": 192
+	},
+
+	{
+		"label":"Level2",
+		"area": 2,
+		"difficulty":"Medium",
+		"score": 0,
+		"status": "open",
+		"rooms":["ShapesGame", "ShapesGame"],
+		"btnX": 817,
+		"btnY": 114
+	},
+
+	{
+		"label":"Level3",
+		"area": 3,
+		"difficulty":"Hard",
+		"score": 0,
+		"status": "open",
+		"rooms":["ShapesGame", "ShapesGame", "ShapesGame"],
+		"btnX": 1552, 
+		"btnY": 381
+	}
+]

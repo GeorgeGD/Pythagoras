@@ -54,6 +54,7 @@ var ShapesGame = {
             game.load.spritesheet('moveWall', 'assets/shapes_files/WallMoving.ss.png?v=' + this.version, 683, 680, 11);
             game.load.spritesheet('crack', 'assets/shapes_files/CrackSprite.png?v=' + this.version, 46, 670, 12);
 
+            //console.log('ShapesGame loading completed!');
         },
 
         create: function() 
@@ -77,8 +78,6 @@ var ShapesGame = {
 		
 		LoadBackground: function ()
 		{
-			game.stage.backgroundColor = '#EEEEEE';
-			
 			for (var ti = 1; ti <=1; ti++) 
 			{
 				var logo = game.add.sprite(game.world.centerX, game.world.centerY, 'Layer_'+ti );
@@ -206,7 +205,10 @@ var ShapesGame = {
 			    {
 			        rnd2++;
 			        if ( rnd2 > 8 ) { rnd2 = 0; }
-			        if ( rnd2 == rnd ) { console.log( 'No more possibilities!' ); break; }
+			        if ( rnd2 == rnd ) { 
+			        	//console.log( 'No more possibilities!' ); 
+			        	break; 
+			    	}
 			        haveSolution = this.FindSolution( rnd2 );
 			    }
 
@@ -434,7 +436,7 @@ var ShapesGame = {
 				}
 				if ( haveSolution )
 				{
-				    console.log( "Have new solution: ITEM_INDEX = " + item_index + "; tco = " + tco );
+				    //console.log( "Have new solution: ITEM_INDEX = " + item_index + "; tco = " + tco );
 				    break;
 				}
 				else
@@ -459,7 +461,7 @@ var ShapesGame = {
 					if (haveSolution) { return 0; /* There is more moves! */ }
 				}
 			}
-			console.log( 'No more possible moves!' );
+			//console.log( 'No more possible moves!' );
 			
 			if (haveItems) { console.log( 'Game Over!' ); return -1; /* Game Over! */}
 			else { console.log( 'Success!' ); return 1; /* Success! */ }
@@ -516,7 +518,7 @@ var ShapesGame = {
 			this.gameOverStatus = 0;
 			if (this.maxSize < 3) { this.maxSize = 3; }
 			
-			game.state.start('MainGame');
+			lvlManager.startNextRoom();
 		},
 		
 		ReplayButton_Over: function () 
@@ -552,7 +554,10 @@ var ShapesGame = {
 						break;
 					}
 				}
-				if ( haveSolution ) { console.log( "There is more moves!" ); break; }
+				if ( haveSolution ) { 
+					//console.log( "There is more moves!" ); 
+					break; 
+				}
 			}
 			return haveSolution;
 		},
@@ -613,7 +618,7 @@ var ShapesGame = {
 					rr += this.pad(a[i][z], 5, ' ') + "  ";
 				}
 				rr+= "\n";
-				console.log(rr);
+				//console.log(rr);
 			}
 		},
 		
