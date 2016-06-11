@@ -4,7 +4,9 @@ var BootState = {
 	preload: function () {
 
 		//Load game setting here
-	
+		game.input.maxPointers = 1;
+		game.input.addPointer();
+
 	},
 
 	create: function () {

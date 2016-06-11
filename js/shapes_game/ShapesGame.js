@@ -58,6 +58,7 @@ var ShapesGame = {
 
         create: function() 
 		{
+			game.world.setBounds(0, 0, 1024, 672);
 			this.LoadBackground();
 			this.LoadGameSize();
 			this.InitgameMatrix();
