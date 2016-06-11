@@ -28,7 +28,7 @@ var ShapesGame = {
 		
 		LevelSkin: 'a',
 
-        preload: function() 
+        loadAssets: function() 
 		{
 			var level = parseInt(game.net.getQueryString('l'));
 			if (!(isNaN(level))) {  this.LoadLevelSettings(level); }
@@ -518,7 +518,7 @@ var ShapesGame = {
 			this.gameOverStatus = 0;
 			if (this.maxSize < 3) { this.maxSize = 3; }
 			
-			lvlManager.startNextRoom();
+			lvlManager.startNextScene();
 		},
 		
 		ReplayButton_Over: function () 

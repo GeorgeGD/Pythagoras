@@ -5,7 +5,7 @@
 		"difficulty":"Easy",
 		"score": 0,
 		"status": "open",
-		"rooms":["ShapesGame"],
+		"scenario":["ShapesGame"],
 		"btnX": 233, 
 		"btnY": 192
 	},
@@ -16,7 +16,7 @@
 		"difficulty":"Medium",
 		"score": 0,
 		"status": "open",
-		"rooms":["ShapesGame", "ShapesGame"],
+		"scenario":["ShapesGame", "ShapesGame"],
 		"btnX": 817,
 		"btnY": 114
 	},
@@ -27,7 +27,7 @@
 		"difficulty":"Hard",
 		"score": 0,
 		"status": "open",
-		"rooms":["ShapesGame", "ShapesGame", "ShapesGame"],
+		"scenario":["ShapesGame", "ShapesGame", "ShapesGame"],
 		"btnX": 1552, 
 		"btnY": 381
 	}
