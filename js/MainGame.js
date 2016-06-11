@@ -11,6 +11,7 @@ var MainGame = {
 
 	create: function () {
 
+		game.world.setBounds(0, 0, 2048, 672);
 		game.add.image(0, 0, 'canvas');
 		HUDbar = game.add.sprite(0, 0, 'HUD_bar');
 		HUDbar.fixedToCamera = true;
@@ -25,7 +26,12 @@ var MainGame = {
 
 	update: function () {
 
-
+		//set camera movement
+		pointer = game.input.activePointer;
+		if (pointer.isDown) {
+			game.camera.x += previousX-pointer.x;
+		}
+		previousX = pointer.x;
 	}
 };
 
@@ -33,3 +39,5 @@ function loadLevel () {
 
 	game.state.start('ShapesGame');
 }
+
+
