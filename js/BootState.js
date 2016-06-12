@@ -1,7 +1,7 @@
 //Boot state
 var BootState = {
 
-	preload: function () {
+	preload: function() {
 
 		//set world and stage settings
 		game.stage.backgroundColor = "#000000";
@@ -17,7 +17,7 @@ var BootState = {
 		game.input.addPointer();
 	},
 
-	create: function () {
+	create: function() {
 
 		//go to 'Preload' state
 		game.state.start('Preload');
