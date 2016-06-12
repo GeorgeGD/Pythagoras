@@ -15,7 +15,7 @@
 		"area": 2,
 		"difficulty":"Medium",
 		"score": 0,
-		"status": "open",
+		"status": "locked",
 		"scenario":["ShapesGame", "ShapesGame"],
 		"btnX": 817,
 		"btnY": 114
@@ -26,7 +26,7 @@
 		"area": 3,
 		"difficulty":"Hard",
 		"score": 0,
-		"status": "open",
+		"status": "silver",
 		"scenario":["ShapesGame", "ShapesGame", "ShapesGame"],
 		"btnX": 1552, 
 		"btnY": 381
