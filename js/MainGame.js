@@ -12,13 +12,13 @@ var MainGame = {
 		game.world.setBounds(0, 0, 2048, 672);
 		game.add.image(0, 0, 'canvas');
 		//add level buttons
-		lvlManager.placeButtons();
+		lvlManager.addLevelButtons();
 		//add area overlay
-		this.addAreaOverlay();
+		this.overlay = addAreaOverlay();
 		//add UI objects
 		this.HUDbar = game.add.sprite(0, 0, 'HUD_bar');
-		this.HUDbar.fixedToCamera = true;
 		this.btnMenu = game.add.button(10, 10, 'btnMenu');
+		this.HUDbar.fixedToCamera = true;
 		this.btnMenu.fixedToCamera = true;
 
 		//assign events
@@ -39,21 +39,6 @@ var MainGame = {
 		}
 		
 	},
-
-	addAreaOverlay: function() {
-
-	}
-
-
 };
-
-function callPopUp (btn) {
-
-	//show a popup for the pressed button
-	if (btn.name) {
-	lvlManager.loadLevel(btn.name);
-	}
-}
-
 
 
