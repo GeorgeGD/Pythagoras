@@ -33,19 +33,19 @@ var ShapesGame = {
 			var level = parseInt(game.net.getQueryString('l'));
 			if (!(isNaN(level))) {  this.LoadLevelSettings(level); }
 			
-			game.load.audio('collect', 'assets/shapes_files/Sound/collect.wav?v=' + this.version);
-			game.load.audio('gameover', 'assets/shapes_files/Sound/gameover.wav?v=' + this.version);
-			game.load.audio('success', 'assets/shapes_files/Sound/gamecomplete.wav?v=' + this.version);
-			game.load.audio('error', 'assets/shapes_files/Sound/error.wav?v=' + this.version);
-			game.load.audio('earthquake', 'assets/shapes_files/Sound/earthquake.wav?v=' + this.version);
-			game.load.audio('rock2', 'assets/shapes_files/Sound/rock2.wav?v=' + this.version);
+			game.load.audio('collect', 'assets/shapes_files/Sound/collect.mp3?v=' + this.version);
+			game.load.audio('gameover', 'assets/shapes_files/Sound/gameover.mp3?v=' + this.version);
+			game.load.audio('success', 'assets/shapes_files/Sound/gamecomplete.mp3?v=' + this.version);
+			game.load.audio('error', 'assets/shapes_files/Sound/error.mp3?v=' + this.version);
+			game.load.audio('earthquake', 'assets/shapes_files/Sound/earthquake.mp3?v=' + this.version);
+			game.load.audio('rock2', 'assets/shapes_files/Sound/rock2.mp3?v=' + this.version);
 			
             game.load.image('box', 'assets/shapes_files/box.png?v=' + this.version);
             game.load.image('white', 'assets/shapes_files/white.png?v=' + this.version);
             game.load.image('replay', 'assets/shapes_files/Replay.png?v=' + this.version);
             game.load.image('box_fill', 'assets/shapes_files/box_fill.png?v=' + this.version);
-            game.load.image('prize', 'assets/shapes_files/Skins/' + this.LevelSkin + '/Prize.png?v=' + this.version);
-            game.load.image('prize2', 'assets/shapes_files/Skins/' + this.LevelSkin + '/Prize2.png?v=' + this.version);
+            game.load.image('prize', 'assets/shapes_files/Skins/Prize.png?v=' + this.version);
+            game.load.image('prize2', 'assets/shapes_files/Skins/Prize2.png?v=' + this.version);
 			
 			for (var ti = 1; ti <=7; ti++) { game.load.image('Layer_' + ti , 'assets/shapes_files/Skins/' + this.LevelSkin + '/Layer_' + ti + '.png?v=' + this.version); }	
 			for (var ti = 1; ti <=7; ti++) { game.load.image('tetris_0' + ti , 'assets/shapes_files/Tetris/tetris_pic_0' + ti + '.png?v=' + this.version); }	
@@ -82,8 +82,6 @@ var ShapesGame = {
 			{
 				var logo = game.add.sprite(game.world.centerX, game.world.centerY, 'Layer_'+ti );
 				logo.anchor.setTo(0.5, 0.5);
-				logo.width = this.windowWidth;
-				logo.height = this.windowHeight;
 			}
 			
 			var prize2 = game.add.sprite(game.world.centerX + 16, game.world.centerY - 10, 'prize2');
@@ -161,8 +159,8 @@ var ShapesGame = {
 			{
 				var logo = game.add.sprite(game.world.centerX, game.world.centerY, 'Layer_'+ti );
 				logo.anchor.setTo(0.5, 0.5);
-				logo.width = this.windowWidth;
-				logo.height = this.windowHeight;
+				//logo.width = this.windowWidth;
+				//logo.height = this.windowHeight;
 				
 				if (ti === 2) { this.gameBorder = logo; }
 			}

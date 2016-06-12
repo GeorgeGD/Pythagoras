@@ -1,8 +1,8 @@
-//level and score managers
-var LevelManager = function() {
+//level manager
+function LevelManager() {
 
 	var Levels = null;
-	var activeArea = null;
+	var activeArea = 1;
 	var activeLevel = null;
 	var nextScene = 0;
 
@@ -10,8 +10,11 @@ var LevelManager = function() {
 
 		//load level data from our .json file
 		Levels = game.cache.getJSON('levels');
-		for(var i in Levels) {
 
+		//determine active area
+		for(var i in Levels) {
+			if(Levels[i].status!='locked')
+				if (activeArea < Levels[i].area) activeArea = Levels[i].area;
 		}
 	};
 
@@ -44,7 +47,7 @@ var LevelManager = function() {
 		}
 	};
 
-	this.placeButtons = function() {
+	this.addLevelButtons = function() {
 
 		var button = null;
 		var level = null;
@@ -54,7 +57,6 @@ var LevelManager = function() {
 			level = Levels[i];
 			frame = this.statusToInt(level.status);
 			//check if the button is locked
-			console.log(frame);
 			if (frame==null) {
 				button = game.add.image(level.btnX, level.btnY, 'btnLocked');
 			}
@@ -67,7 +69,6 @@ var LevelManager = function() {
 	};
 
 	this.statusToInt = function(status) {
-		console.log(status);
 		switch(status) {
 			case 'open': 	return 0;
 			case 'bronze': 	return 1;
@@ -76,4 +77,12 @@ var LevelManager = function() {
 			default: 		return null;
 		}
 	};
-}
+
+	//Area and level getters
+	this.getArea = function() {
+		return activeArea;
+	}
+	this.getLevel = function() {
+		return activeLevel;
+	}
+};

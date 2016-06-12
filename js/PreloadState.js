@@ -11,6 +11,7 @@ var PreloadState = {
 		//Execute chain loading of game assets here
 		//images
 		game.load.image('canvas', 'assets/main_files/Campaign_mockup.jpg');
+		game.load.image('overlay', 'assets/main_files/area_overlay.png');
 		game.load.image('HUD_bar', 'assets/main_files/HUD_bar.jpg');
 		game.load.image('btnMenu', 'assets/main_files/btn_menu.png');
 		game.load.image('btnLocked', 'assets/main_files/btn_locked.png');
