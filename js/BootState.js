@@ -23,3 +23,5 @@ var BootState = {
 		game.state.start('Preload');
 	},
 }
+
+//addGlobalGameResult(_playerID, _score, _level, _gameID);

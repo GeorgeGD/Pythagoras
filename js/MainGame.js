@@ -17,9 +17,10 @@ var MainGame = {
 		this.overlay = addAreaOverlay();
 		//add UI objects
 		this.HUDbar = game.add.sprite(0, 0, 'HUD_bar');
-		this.btnMenu = game.add.button(10, 10, 'btnMenu');
+		this.btnMenu = game.add.button(10, 10, 'btnMenu', function(){}, this, 0, 1, 2);
 		this.HUDbar.fixedToCamera = true;
 		this.btnMenu.fixedToCamera = true;
+		this.btnMenu.scale.set(0.5);
 
 		//assign events
 		//track pointer position on input
@@ -31,7 +32,7 @@ var MainGame = {
 
 	update: function() {
 
-		//set camera movement
+		//camera movement
 		var pointer = game.input.activePointer;
 		if (pointer.isDown) {
 			game.camera.x += this.lastposX-pointer.x;
