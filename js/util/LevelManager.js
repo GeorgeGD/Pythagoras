@@ -1,11 +1,13 @@
 //level manager
 function LevelManager() {
 
+	//private members
 	var Levels = null;
 	var activeArea = 1;
 	var activeLevel = null;
 	var nextScene = 0;
 
+	// Preload function
 	this.loadData = function() {
 
 		//load level data from our .json file
@@ -13,12 +15,14 @@ function LevelManager() {
 
 		//determine active area
 		for(var i in Levels) {
+			scrManager.cumulateReq(Levels[i].area, Levels[i].difficulty);
 			if(Levels[i].status!='locked')
 				if (activeArea < Levels[i].area) activeArea = Levels[i].area;
 		}
 	};
 
-	this.loadLevel = function(label) {
+	//start level with label
+	this.startLevel = function(label) {
 
 		//find the level
 		for (var i in Levels) {
@@ -30,6 +34,7 @@ function LevelManager() {
 		this.startNextScene();
 	};
 
+	//start next scene (state)
 	this.startNextScene = function() {
 
 		//check if level is completed
@@ -47,6 +52,7 @@ function LevelManager() {
 		}
 	};
 
+	//add level buttons to MainGame
 	this.addLevelButtons = function() {
 
 		var button = null;
@@ -65,9 +71,11 @@ function LevelManager() {
 				button.hitArea = new Phaser.Circle(button.width/2, button.height/2, button.width);
 				button.name = level.label;
 			}
+			button.scale.set(0.7);
 		}
 	};
 
+	//convert level status to int
 	this.statusToInt = function(status) {
 		switch(status) {
 			case 'open': 	return 0;

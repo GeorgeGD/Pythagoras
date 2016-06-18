@@ -22,6 +22,6 @@ function callPopUp (btn) {
 
 	//show a popup for the pressed button
 	if (btn.name) {
-	lvlManager.loadLevel(btn.name);
+	lvlManager.startLevel(btn.name);
 	}
 }

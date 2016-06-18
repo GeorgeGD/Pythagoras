@@ -13,8 +13,10 @@ var PreloadState = {
 		game.load.image('canvas', 'assets/main_files/Campaign_mockup.jpg');
 		game.load.image('overlay', 'assets/main_files/area_overlay.png');
 		game.load.image('HUD_bar', 'assets/main_files/HUD_bar.jpg');
-		game.load.image('btnMenu', 'assets/main_files/btn_menu.png');
 		game.load.image('btnLocked', 'assets/main_files/btn_locked.png');
+		game.load.spritesheet('btnMenu', 'assets/btn_menu.png', 200, 106);
+		game.load.spritesheet('btnStart', 'assets/btn_start.png', 240, 106);
+		game.load.spritesheet('btnClose', 'assets/btn_close.png', 210, 106);
 		game.load.spritesheet('btnEasy', 'assets/main_files/lvl_button_easy.png', 157, 159);
 		game.load.spritesheet('btnMedium', 'assets/main_files/lvl_button_medium.png', 157, 159);
 		game.load.spritesheet('btnHard', 'assets/main_files/lvl_button_hard.png', 157, 159);
