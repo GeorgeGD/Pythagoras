@@ -2,10 +2,11 @@
 <html>
     <head>
         <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <title>Project Pythagoras</title>
 
         <!-- Phaser library v2.4.8 -->
-        <script src="js/lib/phaser.min.2.4.9.RC4.js"></script>
+        <script src="js/lib/phaser.min.2.5.0.js"></script>
 
         <!-- Game states and upkeep source codes -->
         <script src="js/MainGame.js"></script>
@@ -29,6 +30,7 @@
 
             //global variables
             var game = new Phaser.Game(1024, 672, Phaser.CANVAS,'GameContainer');
+            var Levels = null;
             var lvlManager = new LevelManager();
             var scrManager = new ScoreManager();
  

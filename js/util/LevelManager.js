@@ -2,7 +2,6 @@
 function LevelManager() {
 
 	//private members
-	var Levels = null;
 	var activeArea = 1;
 	var activeLevel = null;
 	var nextScene = 0;
@@ -10,15 +9,25 @@ function LevelManager() {
 	// Preload function
 	this.loadData = function() {
 
+		var level = null;
+		var servData = null;
 		//load level data from our .json file
-		Levels = game.cache.getJSON('levels');
+		Levels = game.cache.getJSON('levelData');
 
-		//determine active area
-		for(var i in Levels) {
-			scrManager.cumulateReq(Levels[i].area, Levels[i].difficulty);
-			if(Levels[i].status!='locked')
-				if (activeArea < Levels[i].area) activeArea = Levels[i].area;
+		//communicate with ScoreManager and determine active area
+		for(var i=0; i<Levels.length; i++) {
+
+			level = Levels[i];
+			servData = GetElementLevelsArray(i+1);
+			level.score = servData.score;
+			level.status = servData.status;
+			scrManager.cumulateReq(level.area, level.difficulty);
+
+			//determine active area
+			if(level.status!='locked')
+				if (activeArea < level.area) activeArea = level.area;
 		}
+
 	};
 
 	//start level with label
@@ -64,14 +73,15 @@ function LevelManager() {
 			frame = this.statusToInt(level.status);
 			//check if the button is locked
 			if (frame==null) {
-				button = game.add.image(level.btnX, level.btnY, 'btnLocked');
+				button = game.add.image(level.btnX+60, level.btnY+60, 'btnLocked');
 			}
 			else {
-				button = game.add.button(level.btnX, level.btnY, 'btn'+level.difficulty, callPopUp, game, frame+4, frame, frame+8);
-				button.hitArea = new Phaser.Circle(button.width/2, button.height/2, button.width);
-				button.name = level.label;
+				button = game.add.button(level.btnX+60, level.btnY+60, 'btn'+level.difficulty, callPopUp, game, frame+4, frame, frame+8);
+				button.hitArea = new Phaser.Circle(0, 0, button.width);
 			}
-			button.scale.set(0.7);
+			button.anchor.setTo(0.5);
+			button.name = level.label;
+			if(level.difficulty!='Boss') button.scale.set(0.7);
 		}
 	};
 

@@ -15,12 +15,22 @@ var MainGame = {
 		lvlManager.addLevelButtons();
 		//add area overlay
 		this.overlay = addAreaOverlay();
-		//add UI objects
-		this.HUDbar = game.add.sprite(0, 0, 'HUD_bar');
-		this.btnMenu = game.add.button(10, 10, 'btnMenu', function(){}, this, 0, 1, 2);
-		this.HUDbar.fixedToCamera = true;
-		this.btnMenu.fixedToCamera = true;
-		this.btnMenu.scale.set(0.5);
+
+		//add UI objects to HUD group
+		this.HUD = game.add.group();
+		this.HUD_bar = game.add.image(0, 0, 'HUD_bar', null, this.HUD);
+		this.HUD_menu = game.add.button(10, 35, 'btnMenu', function(){}, this, 0, 1, 2, 0, this.HUD);
+		this.HUD_menu.anchor.setTo(0, 0.5);
+		this.HUD_menu.scale.set(0.5);
+		this.HUD_score = game.add.image(game.width-10, 35, 'HUD_score', null, this.HUD);
+		this.HUD_score.anchor.setTo(1, 0.5);
+		this.HUD_text = game.add.text(this.HUD_score.x-this.HUD_score.width/2+15, 38, '0000', null, this.HUD);
+		this.HUD_text.anchor.setTo(0.5);
+		this.HUD.fixedToCamera = true;
+
+		//add objects to lvlPanel group
+
+		//add objects to menuPanel group
 
 		//assign events
 		//track pointer position on input
@@ -38,7 +48,6 @@ var MainGame = {
 			game.camera.x += this.lastposX-pointer.x;
 			this.lastposX = pointer.x;
 		}
-		
 	},
 };
 
