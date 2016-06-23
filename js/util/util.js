@@ -29,7 +29,7 @@ function statusToInt(status) {
 }
 
 //call level
-function callLevel(btn) {
+function start(btn) {
 
 	if (btn.name) {
 	lvlManager.startLevel(btn.name);

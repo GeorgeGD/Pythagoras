@@ -22,7 +22,7 @@ var MainGame = {
 		//add objects to HUD group
 		this.HUD = game.add.group();
 		this.HUD_panel = game.add.image(0, 0, 'HUDpanel', null, this.HUD);
-		this.HUD_menu = game.add.button(10, 35, 'btnMenu', this.callComplete, this, 0, 1, 2, 0, this.HUD);
+		this.HUD_menu = game.add.button(10, 35, 'btnMenu', this.callMenu, this, 0, 1, 2, 0, this.HUD);
 		this.HUD_menu.anchor.setTo(0, 0.5);
 		this.HUD_menu.scale.set(0.5);
 		this.HUD_score = game.add.image(game.width-10, 35, 'HUDscore', null, this.HUD);
@@ -44,7 +44,7 @@ var MainGame = {
 		this.lvl_token = game.add.sprite(82, 59, 'tokens', 0, this.lvlPopup);
 		this.lvl_text  = game.add.text(this.lvl_coin.centerX, 105, '000'+'/'+'XXX', null, this.lvlPopup);
 		this.lvl_text.anchor.setTo(0.5, 0);
-		this.lvl_start = game.add.button(39, 183, 'btnStart', callLevel, this, 0, 1, 2, 1, this.lvlPopup);
+		this.lvl_start = game.add.button(39, 183, 'btnStart', start, this, 0, 1, 2, 1, this.lvlPopup);
 		this.lvl_start.scale.setTo(0.7);
 		this.lvl_close = game.add.button(229, 183, 'btnClose', this.closePopUp, this, 0, 1, 2, 1, this.lvlPopup);
 		this.lvl_close.scale.setTo(0.7);
@@ -83,6 +83,13 @@ var MainGame = {
 		if(scrManager.getCompleted()) this.callComplete();
 
 		//add objects to menu popup group
+		this.mnPopup = game.add.group();
+		this.mn_panel = game.add.image(10, 80, 'menuPanel', null, this.mnPopup);
+		//add 4 buttons
+		this.mnPopup.visible = false;
+		this.mnPopup.fixedToCamera = true;
+		//add data to menu button
+		this.HUD_menu.data.popup = this.mnPopup;
 
 		//assign events
 		//track pointer position on input
@@ -103,6 +110,7 @@ var MainGame = {
 	},
 
 	//show and close popups
+	//level complete popup
 	callComplete: function () {
 
 		this.Buttons.setAll('inputEnabled', false);
@@ -113,8 +121,20 @@ var MainGame = {
 		//reset score manager
 		scrManager.reset();
 	},
+	//menu popup
+	callMenu: function (btn) {
 
-	callPopUp: function(btn) {
+		if(btn.data.popup.visible) {
+
+			btn.data.popup.visible = false;
+		}
+		else {
+
+			btn.data.popup.visible = true;
+		}
+	},
+	//level popup
+	callLevel: function(btn) {
 
 		this.lvl_text.setText(btn.data.score+'/'+'XXX');
 		this.lvl_token.frame = statusToInt(btn.data.status);
@@ -147,7 +167,7 @@ var MainGame = {
 				button = game.add.image(level.btnX+60, level.btnY+60, 'btnLocked');
 			}
 			else {
-				button = game.add.button(level.btnX+60, level.btnY+60, 'btn'+level.difficulty, this.callPopUp, this, f+4, f, f+8, f);
+				button = game.add.button(level.btnX+60, level.btnY+60, 'btn'+level.difficulty, this.callLevel, this, f+4, f, f+8, f);
 				button.hitArea = new Phaser.Circle(0, 0, button.width);
 			}
 			button.anchor.setTo(0.5);
