@@ -5,6 +5,7 @@ function LevelManager() {
 	var activeArea = 1;
 	var activeLevel = null;
 	var nextScene = 0;
+	var cameraPos = 0;
 
 	// Preload function
 	this.loadData = function() {
@@ -21,7 +22,7 @@ function LevelManager() {
 			servData = GetElementLevelsArray(i+1);
 			level.score = servData.Score;
 			level.status = servData.Status;
-			scrManager.cumulateReq(level.area, level.difficulty);
+			scrManager.cumulateNumbers(level);
 
 			//determine active area
 			if(level.status!='locked')
@@ -33,6 +34,7 @@ function LevelManager() {
 	//start level with label
 	this.startLevel = function(label) {
 
+		cameraPos = game.camera.position;
 		//find the level
 		for (var i in Levels) {
 			if (Levels[i].label == label) {
@@ -50,6 +52,7 @@ function LevelManager() {
 		if(nextScene >= activeLevel.scenario.length) {
 			//go to MainGame
 			nextScene = 0;
+			scrManager.calcLevelScore();
 			game.state.start('MainGame');
 		} 
 		else {
@@ -61,11 +64,14 @@ function LevelManager() {
 		}
 	};
 
-	//Area and level getters
+	//getters
 	this.getArea = function() {
 		return activeArea;
 	};
 	this.getLevel = function() {
 		return activeLevel;
+	};
+	this.getCameraPos = function() {
+		return cameraPos;
 	}
 };

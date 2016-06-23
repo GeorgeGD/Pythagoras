@@ -16,12 +16,13 @@ var PreloadState = {
 		//images
 		game.load.image('canvas', 'assets/main_files/Campaign_mockup.jpg');
 		game.load.image('overlay', 'assets/main_files/area_overlay.png');
-		game.load.image('HUD_bar', 'assets/main_files/HUD_bar.jpg');
-		game.load.image('HUD_score', 'assets/main_files/score_panel.png');
+		game.load.image('HUDpanel', 'assets/main_files/HUD_bar.jpg');
+		game.load.image('HUDscore', 'assets/main_files/score_panel.png');
 		game.load.image('lvlPanel', 'assets/main_files/level_panel.png');
 		game.load.image('btnLocked', 'assets/main_files/btn_locked.png');
+		game.load.image('lifeToken', 'assets/main_files/life_token.png');
 		game.load.image('coin', 'assets/main_files/coin.png');
-		game.load.spritesheet('token', 'assets/main_files/token.png', 75, 75);
+		game.load.spritesheet('tokens', 'assets/main_files/tokens.png', 75, 75);
 		game.load.spritesheet('btnMenu', 'assets/main_files/btn_menu.png', 200, 106);
 		game.load.spritesheet('btnStart', 'assets/main_files/btn_start.png', 240, 106);
 		game.load.spritesheet('btnClose', 'assets/main_files/btn_close.png', 210, 106);
@@ -29,8 +30,17 @@ var PreloadState = {
 		game.load.spritesheet('btnMedium', 'assets/main_files/lvl_button_medium.png', 157, 159);
 		game.load.spritesheet('btnHard', 'assets/main_files/lvl_button_hard.png', 157, 159);
 		game.load.spritesheet('btnBoss', 'assets/main_files/lvl_button_boss.png', 157, 159);
+
+		//complete popup
+		game.load.image('cmpBar', 'assets/main_files/reward_bar.jpg');
+		game.load.image('cmpPanel', 'assets/main_files/cmp_panel.png');
+		game.load.image('cmpScore', 'assets/main_files/scr_panel_small.png');
+		game.load.spritesheet('cmpTokens', 'assets/main_files/reward_tokens.png', 51, 89);
+		game.load.spritesheet('cmpIngots', 'assets/main_files/ingots.png', 96, 35);
+		
 		//load level data into the manager
 		lvlManager.loadData();
+
 		//Chain-load all game state assets
 		ShapesGame.loadAssets();
 	},
