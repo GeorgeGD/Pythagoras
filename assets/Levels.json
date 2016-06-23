@@ -19,7 +19,7 @@
 		"label":"Level3",
 		"area": 1,
 		"difficulty":"Medium",
-		"scenario":["ShapesGame", "ShapesGame", "ShapesGame"],
+		"scenario":["ShapesGame", "ShapesGame"],
 		"btnX": 461, 
 		"btnY": 133
 	},
