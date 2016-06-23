@@ -44,9 +44,9 @@ var MainGame = {
 		this.lvl_token = game.add.sprite(82, 59, 'tokens', 0, this.lvlPopup);
 		this.lvl_text  = game.add.text(this.lvl_coin.centerX, 105, '000'+'/'+'XXX', null, this.lvlPopup);
 		this.lvl_text.anchor.setTo(0.5, 0);
-		this.lvl_start = game.add.button(39, 183, 'btnStart', callLevel, this, 0, 1, 2, 0, this.lvlPopup);
+		this.lvl_start = game.add.button(39, 183, 'btnStart', callLevel, this, 0, 1, 2, 1, this.lvlPopup);
 		this.lvl_start.scale.setTo(0.7);
-		this.lvl_close = game.add.button(229, 183, 'btnClose', this.closePopUp, this, 0, 1, 2, 0, this.lvlPopup);
+		this.lvl_close = game.add.button(229, 183, 'btnClose', this.closePopUp, this, 0, 1, 2, 1, this.lvlPopup);
 		this.lvl_close.scale.setTo(0.7);
 		this.lvl_close.data.popup = this.lvlPopup;
 		this.lvlPopup.visible = false;
@@ -70,7 +70,7 @@ var MainGame = {
 		this.cmp_coin  = game.add.image(this.cmp_panel.centerX-90, this.cmp_bar.bottom+20, 'coin', null, this.cmpPopup);
 		this.cmp_text  = game.add.text(this.cmp_coin.right+10, this.cmp_coin.centerY, '000'+'/'+'XXX', null, this.cmpPopup);
 		this.cmp_text.anchor.setTo(0, 0.5);
-		this.cmp_close = game.add.button(this.cmp_panel.centerX, 300, 'btnClose', this.closePopUp, this, 0, 1, 2, 0, this.cmpPopup);
+		this.cmp_close = game.add.button(this.cmp_panel.centerX, 300, 'btnClose', this.closePopUp, this, 0, 1, 2, 1, this.cmpPopup);
 		this.cmp_close.anchor.setTo(0.5, 0);
 		this.cmp_close.scale.setTo(0.7);
 		this.cmp_close.data.popup = this.cmpPopup;
