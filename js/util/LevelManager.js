@@ -19,8 +19,8 @@ function LevelManager() {
 
 			level = Levels[i];
 			servData = GetElementLevelsArray(i+1);
-			level.score = servData.score;
-			level.status = servData.status;
+			level.score = servData.Score;
+			level.status = servData.Status;
 			scrManager.cumulateReq(level.area, level.difficulty);
 
 			//determine active area
@@ -61,45 +61,10 @@ function LevelManager() {
 		}
 	};
 
-	//add level buttons to MainGame
-	this.addLevelButtons = function() {
-
-		var button = null;
-		var level = null;
-		var frame = null;
-		for (var i in Levels) {
-			//create the button, set its hitArea to a circle and set its name to the level label
-			level = Levels[i];
-			frame = this.statusToInt(level.status);
-			//check if the button is locked
-			if (frame==null) {
-				button = game.add.image(level.btnX+60, level.btnY+60, 'btnLocked');
-			}
-			else {
-				button = game.add.button(level.btnX+60, level.btnY+60, 'btn'+level.difficulty, callPopUp, game, frame+4, frame, frame+8);
-				button.hitArea = new Phaser.Circle(0, 0, button.width);
-			}
-			button.anchor.setTo(0.5);
-			button.name = level.label;
-			if(level.difficulty!='Boss') button.scale.set(0.7);
-		}
-	};
-
-	//convert level status to int
-	this.statusToInt = function(status) {
-		switch(status) {
-			case 'open': 	return 0;
-			case 'bronze': 	return 1;
-			case 'silver': 	return 2;
-			case 'gold': 	return 3;
-			default: 		return null;
-		}
-	};
-
 	//Area and level getters
 	this.getArea = function() {
 		return activeArea;
-	}
+	};
 	this.getLevel = function() {
 		return activeLevel;
 	}
