@@ -28,6 +28,9 @@ var ShapesGame = {
 		
 		LevelSkin: 'a',
 
+		//score
+		prcScore: 1,
+
         loadAssets: function() 
 		{
 			var level = parseInt(game.net.getQueryString('l'));
@@ -499,6 +502,9 @@ var ShapesGame = {
 				this.myBoxes[i].inputEnabled = false;
 				if (this.myBoxes[i].isEnabled) { this.myBoxes[i].tint = 0xFF0000; }
 			}
+
+			//Calc score
+			scrManager.calcRoomScore(this.prcScore);
 		},
 		
 		AddReplayButton: function ()
@@ -515,7 +521,8 @@ var ShapesGame = {
 			//else if (this.gameOverStatus == 1) { this.maxSize++;} 
 			this.gameOverStatus = 0;
 			if (this.maxSize < 3) { this.maxSize = 3; }
-			
+
+
 			lvlManager.startNextScene();
 		},
 		

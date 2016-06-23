@@ -42,8 +42,8 @@ var currentGlobalGame = {
 	levels: [
 	{Level:'Level1', Score: 100, Status: 'open'},
 	{Level:'Level2', Score: 150, Status: 'silver'},
-	{Level:'Level3', Score: 20, Status: 'gold'},
-	{Level:'Level4', Score: 30, Status: 'locked'},
+	{Level:'Level3', Score: 50, Status: 'gold'},
+	{Level:'Level4', Score: 0, Status: 'locked'},
 	{Level:'Level5', Score: 0, Status: 'locked'},
 	{Level:'Level6', Score: 0, Status: 'locked'},
 	{Level:'Level7', Score: 0, Status: 'locked'},
