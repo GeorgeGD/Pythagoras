@@ -1,4 +1,4 @@
-﻿//Shapes game - Veselin Smokov
+//Shapes game - Veselin Smokov
 var ShapesGame = {
 		version: 2,
 		selectionCount: 0,
@@ -29,7 +29,9 @@ var ShapesGame = {
 		LevelSkin: 'a',
 
 		//score
-		prcScore: 1,
+		prcScore: 0,
+		okUserItems: 0,
+		allItemsCount: 0,
 
         loadAssets: function() 
 		{
@@ -63,6 +65,9 @@ var ShapesGame = {
         create: function() 
 		{
 			game.world.setBounds(0, 0, 1024, 672);
+			this.prcScore = 0;
+			this.okUserItems = 0;
+			this.allItemsCount = 0;
 			this.LoadBackground();
 			this.LoadGameSize();
 			this.InitgameMatrix();
@@ -218,6 +223,7 @@ var ShapesGame = {
 			        this.gameTarget[rnd2].count++;
 					this.gameTarget[rnd2].text.setText(this.gameTarget[rnd2].count);
 					this.gameTarget[rnd2].tint = 0xffffff;	
+					this.allItemsCount++;
 			    }
 			    else { break;}
 			}
@@ -286,6 +292,9 @@ var ShapesGame = {
 						fndgameTarget.count--;
 						fndgameTarget.text.setText(fndgameTarget.count);
 						if (fndgameTarget.count ===0) {fndgameTarget.tint = 0x3c3c3c;}
+											
+						this.okUserItems++;
+						this.prcScore = this.okUserItems / this.allItemsCount;
 						
 						for (var p=1; p < fnd.length; p++)
 						{
