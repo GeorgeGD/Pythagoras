@@ -86,6 +86,24 @@ var MainGame = {
 		this.mnPopup = game.add.group();
 		this.mn_panel = game.add.image(10, 80, 'menuPanel', null, this.mnPopup);
 		//add 4 buttons
+		var delim = 60;
+		this.mn_pause = game.add.button(this.mn_panel.centerX, this.mn_panel.y+delim+20, 'btnPause', function(){}, this, 0, 1, 2);
+		this.mn_pause.hitArea = new Phaser.Circle(0, 0, this.mn_pause.width);
+		this.mn_pause.anchor.setTo(0.5);
+		this.mn_pause.scale.setTo(0.7);
+		this.mn_sound = game.add.button(this.mn_panel.centerX, this.mn_pause.bottom+delim, 'btnSound', function(){}, this, 0, 1);
+		this.mn_sound.hitArea = new Phaser.Circle(0, 0, this.mn_sound.width);
+		this.mn_sound.anchor.setTo(0.5);
+		this.mn_sound.scale.setTo(0.7);
+		this.mn_ladder = game.add.button(this.mn_panel.centerX, this.mn_sound.bottom+delim, 'btnLadder', function(){}, this, 0, 1, 2);
+		this.mn_ladder.hitArea = new Phaser.Circle(0, 0, this.mn_ladder.width);
+		this.mn_ladder.anchor.setTo(0.5);
+		this.mn_ladder.scale.setTo(0.7);	
+		this.mn_home = game.add.button(this.mn_panel.centerX, this.mn_ladder.bottom+delim, 'btnHome', function(){}, this, 0, 1, 2);
+		this.mn_home.hitArea = new Phaser.Circle(0, 0, this.mn_home.width);
+		this.mn_home.anchor.setTo(0.5);
+		this.mn_home.scale.setTo(0.7);
+		this.mnPopup.addMultiple([this.mn_pause, this.mn_sound, this.mn_ladder, this.mn_home]);
 		this.mnPopup.visible = false;
 		this.mnPopup.fixedToCamera = true;
 		//add data to menu button
