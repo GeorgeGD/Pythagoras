@@ -32,7 +32,11 @@ var PreloadState = {
 		game.load.spritesheet('btnBoss', 'assets/main_files/lvl_button_boss.png', 157, 159);
 
 		//menu panel
-		game.load.image('menuPanel', 'assets/menu_panel_mockup.png');
+		game.load.image('menuPanel', 'assets/menu_files/menu_panel.png');
+		game.load.spritesheet('btnSound', 'assets/menu_files/btn_sound.png', 100, 100);
+		game.load.spritesheet('btnPause', 'assets/menu_files/btn_pause.png', 100, 100);
+		game.load.spritesheet('btnLadder', 'assets/menu_files/btn_ladder.png', 100, 100);
+		game.load.spritesheet('btnHome', 'assets/menu_files/btn_home.png', 100, 100);
 
 		//complete popup
 		game.load.image('cmpBar', 'assets/main_files/reward_bar.jpg');
