@@ -13,7 +13,7 @@ var Level_02 =
 var Level_03 =
 {
 	skin : 'c',
-	size : 10
+	size : 8
 };
 
 var Levels = [ Level_01, Level_02, Level_03 ];
