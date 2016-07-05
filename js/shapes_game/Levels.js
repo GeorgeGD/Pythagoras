@@ -1,7 +1,7 @@
 ﻿var Level_01 =
 {
 	skin : 'a',
-	size : 10
+	size : 6
 };
 
 var Level_02 =
@@ -13,7 +13,7 @@ var Level_02 =
 var Level_03 =
 {
 	skin : 'c',
-	size : 8
+	size : 10
 };
 
-var Diff = [ Level_01, Level_02, Level_03 ];
+var Levels = [ Level_01, Level_02, Level_03 ];
