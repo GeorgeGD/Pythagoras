@@ -8,7 +8,7 @@ var ShapesGame = {
 		startY: 106,
 		windowWidth: 1024,
 		windowHeight: 672,
-        gameMatrix: new Array( this.maxSize ),
+        gameMatrix: null,
 		gameTarget: [],
 		myBoxes: [],
 		selectedBoxes: [],
@@ -33,9 +33,6 @@ var ShapesGame = {
 
         loadAssets: function() 
 		{
-			var level = parseInt(game.net.getQueryString('l'));
-			if (!(isNaN(level))) {  this.LoadLevelSettings(level); }
-			
 			game.load.audio('collect', 'assets/shapes_files/Sound/collect.mp3?v=' + this.version);
 			game.load.audio('gameover', 'assets/shapes_files/Sound/gameover.mp3?v=' + this.version);
 			game.load.audio('success', 'assets/shapes_files/Sound/gamecomplete.mp3?v=' + this.version);
@@ -63,6 +60,9 @@ var ShapesGame = {
         create: function() 
 		{
 			game.world.setBounds(0, 0, 1024, 672);
+			//var level = parseInt(game.net.getQueryString('l'));
+			//if (!(isNaN(level))) {  this.LoadLevelSettings(level); }
+			this.LoadLevelSettings(1);
 			this.LoadBackground();
 			this.LoadGameSize();
 			this.InitgameMatrix();
@@ -680,7 +680,7 @@ var ShapesGame = {
 		
 		LoadLevelSettings: function (onLevel)
 		{
-			var lvl = Levels[onLevel-1];
+			var lvl = Diff[onLevel-1];
 			this.LevelSkin = lvl.skin;
 			this.maxSize = lvl.size;
 		},
