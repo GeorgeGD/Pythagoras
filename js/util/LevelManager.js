@@ -48,7 +48,7 @@ function LevelManager() {
 		if(nextScene >= activeLevel.scenario.length) {
 			//go to MainGame
 			nextScene = 0;
-			scrManager.calcLevelScore();
+			scrManager.calcLevelScore(activeLevel);
 			game.state.start('MainGame');
 		} 
 		else {

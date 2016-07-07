@@ -62,6 +62,13 @@ var MainGame = {
 	callComplete: function() {
 		this.Buttons.setAll('inputEnabled', false);
 		this.cmpPopup.position.setTo(game.camera.x+(game.width-this.cmp_panel.width)/2, (game.height-this.cmp_panel.height)/2);
+		this.cmp_gold.tint = 0x7f7f7f;
+		this.cmp_silver.tint = 0x7f7f7f;
+		this.cmp_bronze.tint = 0x7f7f7f;
+		this.cmp_life.tint = 0x7f7f7f;
+
+
+		//show popup
 		this.cmpPopup.visible = true;
 		this.cameraEnabled = false;
 		//reset score manager
@@ -78,18 +85,23 @@ var MainGame = {
 	//add assets to the state
 	//add area overlay
 	addAreaOverlay: function() {
-		var posX = null;
-		this.overlay = null;
+		var pos = null;
 		//check which area is active
 		switch (lvlManager.getArea()) {
-			case 1: posX = 651;  break;
-			case 2: posX = 1295; break;
-			case 3: posX = 2048; break;
+			case 1: pos = {x: 651, y: 240};  break;
+			case 2: pos = {x: 1295, y: 346}; break;
 			default: break;
 		}
 		//display the overlay if we have a valid area
-		if (posX) this.overlay = game.add.image(posX, 0, 'overlay');
-
+		if (pos) {
+			this.overlay = game.add.image(pos.x, 0, 'overlay');
+			this.locks = game.add.group();
+			this.areaLock = game.add.image(pos.x+10, pos.y, 'areaLock', null, this.locks);
+			this.textReq = game.add.text(this.areaLock.centerX+20, this.areaLock.centerY, '700', null, this.locks);
+			this.textReq.text = scrManager.getAreaReq(lvlManager.getArea()+1);
+			this.textReq.addColor('red', 0);
+			this.textReq.anchor.setTo(0.5);
+		}
 	},
 
 	//add level buttons to MainGame
@@ -104,7 +116,7 @@ var MainGame = {
 			f = statusToInt(level.status);
 			//check if the button is locked
 			if (f==null) {
-				button = game.add.image(level.btnX+60, level.btnY+60, 'btnLocked');
+				//button = game.add.image(level.btnX+60, level.btnY+60, 'btnLocked');
 			}
 			else {
 				button = game.add.button(level.btnX+60, level.btnY+60, 'btn'+level.difficulty, this.callLevel, this, f+4, f, f+8, f);
@@ -125,6 +137,7 @@ var MainGame = {
 		this.HUD_score.anchor.setTo(1, 0.5);
 		this.HUD_text = game.add.text(this.HUD_score.centerX+12, this.HUD_score.centerY+3, scrManager.getScore(), null, this.HUD);
 		this.HUD_text.anchor.setTo(0.5);
+		//add shared menu items
 		addMenuItems.call(this);
 		//add lifes
 		this.lifes = game.add.group(this.HUD);

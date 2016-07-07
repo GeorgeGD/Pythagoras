@@ -6,9 +6,10 @@ function ScoreManager() {
 		  maxHard 	= 500;
 
 	var totalScore = 0,
-		roomScore = 0,
-		oldScore = 0,
+		prcLevel = 0,
+		highScore = 0,
 		newScore = 0,
+		roomCount = 0;
 		lvlCompleted = false,
 		areaReq = new Array();
 
@@ -29,25 +30,47 @@ function ScoreManager() {
 	};
 
 	this.calculateAreas = function() {
-		//zone
+		for (var i=1; i<areaReq.length; i++) {
+			if(areaReq[i]) 
+				for (var j=1; j<i; j++)	
+					if(areaReq[j]) areaReq[i] += areaReq[j];
+		}
 	};
 
 	this.calcRoomScore = function(prc_score) {
-
+		prc_score = formatPrcScore(prc_score);
+		prcLevel += prc_score;
+		roomCount++;
 	};
 
-	this.calcLevelScore = function() {
-		//update TotalScore
-		totalScore += newScore - oldScore;
+	this.calcLevelScore = function(level) {
+
+		highScore = level.score;
+		var points = 0;
+
+		switch (level.difficulty) {
+			case 'Easy': 	points = maxEasy; 	break;
+			case 'Medium': 	points = maxMedium; break;
+			case 'Hard': 	points = maxHard; 	break;
+			default: break;
+		}
+		newScore = game.math.roundTo((prcLevel/roomCount)*points);
+
+		if(newScore > highScore) {
+			
+			//update TotalScore
+			totalScore += newScore - highScore;
+		}
 
 		//level completed
 		lvlCompleted = true;
 	};
 
 	this.reset = function() {
-		roomScore = 0;
-		oldScore = 0;
+		prcLevel = 0;
+		highScore = 0;
 		newScore = 0;
+		roomCount = 0;
 		lvlCompleted = false;
 	};
 
@@ -61,7 +84,7 @@ function ScoreManager() {
 	this.getCompleted = function() {
 		return lvlCompleted;
 	};
-	this.getAreaReq = function() {
-		return areaReq;
+	this.getAreaReq = function(index) {
+		return areaReq[index];
 	};
 }
