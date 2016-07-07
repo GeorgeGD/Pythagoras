@@ -32,8 +32,8 @@
             var game = new Phaser.Game(1024, 672, Phaser.CANVAS,'GameContainer');
             var Levels = null;
             var lvlManager = new LevelManager();
-            var scrManager = new ScoreManager();
- 
+            var scrManager = new ScoreManager;
+            
             //add states to StateManager
             game.state.add('Boot', BootState);
             game.state.add('Preload', PreloadState);

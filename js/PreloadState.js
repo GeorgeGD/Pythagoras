@@ -2,7 +2,6 @@
 var PreloadState = {
 
 	preload: function() {
-
 		//Display loading screen and loadingBar
 		game.add.image(0, 0, 'bootScreen');
 		this.loadingBar = game.add.group();
@@ -53,7 +52,6 @@ var PreloadState = {
 	},
 
 	create: function() {
-
 		//After preload immediately start MainGame state
 		game.state.start('MainGame');
 	},

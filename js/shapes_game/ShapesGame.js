@@ -8,7 +8,7 @@ var ShapesGame = {
 		startY: 106,
 		windowWidth: 1024,
 		windowHeight: 672,
-        gameMatrix: new Array( this.maxSize ),
+        gameMatrix: null,
 		gameTarget: [],
 		myBoxes: [],
 		selectedBoxes: [],
@@ -29,12 +29,12 @@ var ShapesGame = {
 		LevelSkin: 'a',
 
 		//score
-		prcScore: 1,
+		prcScore: 0,
+		okUserItems: 0,
+		allItemsCount: 0,
 
         loadAssets: function() 
 		{
-			var level = parseInt(game.net.getQueryString('l'));
-			if (!(isNaN(level))) {  this.LoadLevelSettings(level); }
 			
 			game.load.audio('collect', 'assets/shapes_files/Sound/collect.mp3?v=' + this.version);
 			game.load.audio('gameover', 'assets/shapes_files/Sound/gameover.mp3?v=' + this.version);
@@ -56,13 +56,20 @@ var ShapesGame = {
 			
             game.load.spritesheet('moveWall', 'assets/shapes_files/WallMoving.ss.png?v=' + this.version, 683, 680, 11);
             game.load.spritesheet('crack', 'assets/shapes_files/CrackSprite.png?v=' + this.version, 46, 670, 12);
-
             //console.log('ShapesGame loading completed!');
         },
 
         create: function() 
 		{
+			//var level = parseInt(game.net.getQueryString('l'));
+			//if (!(isNaN(level))) {  this.LoadLevelSettings(level); }
+			var level = 1;
+			this.LoadLevelSettings(level);
+			
 			game.world.setBounds(0, 0, 1024, 672);
+			this.prcScore = 0;
+			this.okUserItems = 0;
+			this.allItemsCount = 0;
 			this.LoadBackground();
 			this.LoadGameSize();
 			this.InitgameMatrix();
@@ -218,6 +225,7 @@ var ShapesGame = {
 			        this.gameTarget[rnd2].count++;
 					this.gameTarget[rnd2].text.setText(this.gameTarget[rnd2].count);
 					this.gameTarget[rnd2].tint = 0xffffff;	
+					this.allItemsCount++;
 			    }
 			    else { break;}
 			}
@@ -286,6 +294,9 @@ var ShapesGame = {
 						fndgameTarget.count--;
 						fndgameTarget.text.setText(fndgameTarget.count);
 						if (fndgameTarget.count ===0) {fndgameTarget.tint = 0x3c3c3c;}
+											
+						this.okUserItems++;
+						this.prcScore = this.okUserItems / this.allItemsCount;
 						
 						for (var p=1; p < fnd.length; p++)
 						{
@@ -680,7 +691,7 @@ var ShapesGame = {
 		
 		LoadLevelSettings: function (onLevel)
 		{
-			var lvl = Levels[onLevel-1];
+			var lvl = ShapeDiff[onLevel-1];
 			this.LevelSkin = lvl.skin;
 			this.maxSize = lvl.size;
 		},
