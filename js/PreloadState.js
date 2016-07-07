@@ -15,6 +15,7 @@ var PreloadState = {
 		//main assets
 		game.load.image('canvas', 'assets/main_files/Campaign_mockup.jpg');
 		game.load.image('overlay', 'assets/main_files/area_overlay.png');
+		game.load.image('areaLock', 'assets/main_files/area_req.png');
 		game.load.image('HUDpanel', 'assets/main_files/HUD_bar.jpg');
 		game.load.image('HUDscore', 'assets/main_files/score_panel.png');
 		game.load.image('lvlPanel', 'assets/main_files/level_panel.png');

@@ -114,8 +114,8 @@ function addMenuItems() {
 var currentGlobalGame = {
 	levels: [
 	{Level:'Level1', Score: 0, Status: 'open'},
-	{Level:'Level2', Score: 0, Status: 'silver'},
-	{Level:'Level3', Score: 0, Status: 'gold'},
+	{Level:'Level2', Score: 0, Status: 'open'},
+	{Level:'Level3', Score: 0, Status: 'open'},
 	{Level:'Level4', Score: 0, Status: 'locked'},
 	{Level:'Level5', Score: 0, Status: 'locked'},
 	{Level:'Level6', Score: 0, Status: 'locked'},
