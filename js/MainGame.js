@@ -23,8 +23,6 @@ var MainGame = {
 		this.addLevelPopup();
 		//add objects to complete popup group
 		this.addCompletePopup();
-		//add objects to menu popup group
-		this.addMenuPopup();
 
 		//show popup if a level is completed
 		if(scrManager.getCompleted()) {
@@ -49,18 +47,6 @@ var MainGame = {
 	},
 
 	//show and close popups
-	//menu popup
-	callMenu: function(btn) {
-		if(btn.data.popup.visible) {
-
-			btn.data.popup.visible = false;
-		}
-		else {
-
-			btn.data.popup.visible = true;
-		}
-	},
-
 	//level popup
 	callLevel: function(btn) {
 		this.lvl_text.setText(btn.data.score+'/'+'XXX');
@@ -72,7 +58,7 @@ var MainGame = {
 		this.cameraEnabled = false;
 	},
 
-	//level complete popup
+	//complete popup
 	callComplete: function() {
 		this.Buttons.setAll('inputEnabled', false);
 		this.cmpPopup.position.setTo(game.camera.x+(game.width-this.cmp_panel.width)/2, (game.height-this.cmp_panel.height)/2);
@@ -135,49 +121,18 @@ var MainGame = {
 	addHUD: function() {
 		this.HUD = game.add.group();
 		this.HUD_panel = game.add.image(0, 0, 'HUDpanel', null, this.HUD);
-		this.HUD_menu = game.add.button(10, 35, 'btnMenu', this.callMenu, this, 0, 1, 2, 0, this.HUD);
-		this.HUD_menu.anchor.setTo(0, 0.5);
-		this.HUD_menu.scale.set(0.5);
 		this.HUD_score = game.add.image(game.width-10, 35, 'HUDscore', null, this.HUD);
 		this.HUD_score.anchor.setTo(1, 0.5);
 		this.HUD_text = game.add.text(this.HUD_score.centerX+12, this.HUD_score.centerY+3, scrManager.getScore(), null, this.HUD);
 		this.HUD_text.anchor.setTo(0.5);
+		addMenuItems.call(this);
 		//add lifes
 		this.lifes = game.add.group(this.HUD);
 		this.lifes.createMultiple(3, 'lifeToken', null, true);
-		this.lifes.align(-1, 1, this.HUD_menu.height, this.HUD_menu.height, Phaser.CENTER);
-		this.lifes.position.setTo(this.HUD_score.left-200, this.HUD_menu.top);
+		this.lifes.align(-1, 1, this.btn_menu.height, this.btn_menu.height, Phaser.CENTER);
+		this.lifes.position.setTo(this.HUD_score.left-200, this.btn_menu.top);
 		//fix HUD to camera
 		this.HUD.fixedToCamera = true;
-	},
-
-	//menu popup object
-	addMenuPopup: function() {		
-		this.mnPopup = game.add.group();
-		this.mn_panel = game.add.image(10, 80, 'menuPanel', null, this.mnPopup);
-		//add 4 buttons
-		var delim = 60;
-		this.mn_pause = game.add.button(this.mn_panel.centerX, this.mn_panel.y+delim+20, 'btnPause', function(){}, this, 0, 1, 2);
-		this.mn_pause.hitArea = new Phaser.Circle(0, 0, this.mn_pause.width);
-		this.mn_pause.anchor.setTo(0.5);
-		this.mn_pause.scale.setTo(0.7);
-		this.mn_sound = game.add.button(this.mn_panel.centerX, this.mn_pause.bottom+delim, 'btnSound', function(){}, this, 0, 1);
-		this.mn_sound.hitArea = new Phaser.Circle(0, 0, this.mn_sound.width);
-		this.mn_sound.anchor.setTo(0.5);
-		this.mn_sound.scale.setTo(0.7);
-		this.mn_ladder = game.add.button(this.mn_panel.centerX, this.mn_sound.bottom+delim, 'btnLadder', function(){}, this, 0, 1, 2);
-		this.mn_ladder.hitArea = new Phaser.Circle(0, 0, this.mn_ladder.width);
-		this.mn_ladder.anchor.setTo(0.5);
-		this.mn_ladder.scale.setTo(0.7);	
-		this.mn_home = game.add.button(this.mn_panel.centerX, this.mn_ladder.bottom+delim, 'btnHome', function(){}, this, 0, 1, 2);
-		this.mn_home.hitArea = new Phaser.Circle(0, 0, this.mn_home.width);
-		this.mn_home.anchor.setTo(0.5);
-		this.mn_home.scale.setTo(0.7);
-		this.mnPopup.addMultiple([this.mn_pause, this.mn_sound, this.mn_ladder, this.mn_home]);
-		this.mnPopup.visible = false;
-		this.mnPopup.fixedToCamera = true;
-		//add data to menu button
-		this.HUD_menu.data.popup = this.mnPopup;
 	},
 
 	//level popup object
