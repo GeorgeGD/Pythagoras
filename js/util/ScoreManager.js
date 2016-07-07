@@ -3,14 +3,17 @@ function ScoreManager() {
 
 	const maxEasy 	= 300,
 		  maxMedium = 400,
-		  maxHard 	= 500;
+		  maxHard 	= 500,
+		  maxBoss	= 1000;
 
 	var totalScore = 0,
-		prcLevel = 0,
 		highScore = 0,
+		diffScore = 0,
 		newScore = 0,
-		roomCount = 0;
+		roomCount = 0,
+		prcLevel = 0,
 		lvlCompleted = false,
+		ingots = new Array();
 		areaReq = new Array();
 
 	this.cumulateNumbers = function(level) {
@@ -18,8 +21,9 @@ function ScoreManager() {
 		var points = 0;
 		switch (level.difficulty) {
 			case 'Easy': 	points = 1*maxEasy; 	break;
-			case 'Medium': 	points = 0.5*maxMedium; break;
-			case 'Hard': 	points = 0.2*maxHard; 	break;
+			case 'Medium': 	points = 0.6*maxMedium; break;
+			case 'Hard': 	points = 0.3*maxHard; 	break;
+			case 'Boss':    points = 0.6*maxBoss;	break;
 			default: break;
 		}
 		if (!areaReq[level.area+1]) areaReq[level.area+1] = 0;
@@ -41,50 +45,84 @@ function ScoreManager() {
 		prc_score = formatPrcScore(prc_score);
 		prcLevel += prc_score;
 		roomCount++;
+		//add ingot reward
+		ingots.push(prc_score);
 	};
 
 	this.calcLevelScore = function(level) {
 
 		highScore = level.score;
-		var points = 0;
-
-		switch (level.difficulty) {
-			case 'Easy': 	points = maxEasy; 	break;
-			case 'Medium': 	points = maxMedium; break;
-			case 'Hard': 	points = maxHard; 	break;
-			default: break;
-		}
-		newScore = game.math.roundTo((prcLevel/roomCount)*points);
+		var points = this.getMaxScore(level.difficulty);
+		prcLevel /= roomCount;
+		newScore = game.math.roundTo(prcLevel*points);
 
 		if(newScore > highScore) {
-			
+
 			//update TotalScore
-			totalScore += newScore - highScore;
+			diffScore = newScore - highScore;
+			totalScore += diffScore;
+			highScore = newScore;
 		}
 
 		//level completed
 		lvlCompleted = true;
+
+		//dynamic Levels update before MainGame start
+		//eventually move to MainGame animation
+		level.score = highScore;
+		if(prcLevel == 1) 	level.status = 'gold';
+		else if(prcLevel >= 0.8) level.status = 'silver';
+		else if(prcLevel >= 0.6) level.status = 'bronze';
+		updateElementLevelsArray(Levels.indexOf(level)+1, level.score, level.status);
+
+		//check for next area
+		if(totalScore>=areaReq[lvlManager.getArea()+1]) {
+			lvlManager.unlockNextArea();
+		}
 	};
 
 	this.reset = function() {
-		prcLevel = 0;
-		highScore = 0;
-		newScore = 0;
-		roomCount = 0;
+		highScore = 0,
+		diffScore = 0,
+		newScore = 0,
+		roomCount = 0,
+		prcLevel = 0,
 		lvlCompleted = false;
+		ingots = new Array();
+	};
+
+	this.getMaxScore = function(diff) {
+		var points = 0;
+		switch (diff) {
+			case 'Easy': 	points = maxEasy; 	break;
+			case 'Medium': 	points = maxMedium; break;
+			case 'Hard': 	points = maxHard; 	break;
+			case 'Boss': 	points = maxBoss;  	break;
+			default: break;
+		}
+		return points;
 	};
 
 	//getters
-	this.getScore = function() {
+	this.getTotalScore = function() {
 		return totalScore;
 	};
-	this.getLvlScore = function() {
-		return lvlScore;
+	this.getHighScore = function() {
+		return highScore;
+	};
+	this.getNewScore = function() {
+		return newScore;
+	};
+	this.getDiffScore = function() {
+		return diffScore;
 	};
 	this.getCompleted = function() {
 		return lvlCompleted;
 	};
 	this.getAreaReq = function(index) {
 		return areaReq[index];
+	};
+	this.getIngots = function() {
+		return ingots;
 	};
 }

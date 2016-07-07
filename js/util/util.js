@@ -23,7 +23,7 @@ function start(btn) {
 function formatPrcScore(prc_score) {
 	if(prc_score>1) prc_score /= 100;
 	prc_score = game.math.roundTo(prc_score,-2);
-	console.log(prc_score);
+	console.log("format: "+prc_score);
 	return prc_score;
 }
 

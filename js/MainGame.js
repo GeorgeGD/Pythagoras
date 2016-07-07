@@ -49,7 +49,7 @@ var MainGame = {
 	//show and close popups
 	//level popup
 	callLevel: function(btn) {
-		this.lvl_text.setText(btn.data.score+'/'+'XXX');
+		this.lvl_text.setText(btn.data.score+'/'+scrManager.getMaxScore(btn.data.difficulty));
 		this.lvl_token.frame = statusToInt(btn.data.status);
 		this.lvl_start.name = btn.data.label;
 		this.Buttons.setAll('inputEnabled', false);
@@ -60,12 +60,14 @@ var MainGame = {
 
 	//complete popup
 	callComplete: function() {
+
 		this.Buttons.setAll('inputEnabled', false);
 		this.cmpPopup.position.setTo(game.camera.x+(game.width-this.cmp_panel.width)/2, (game.height-this.cmp_panel.height)/2);
-		this.cmp_gold.tint = 0x7f7f7f;
-		this.cmp_silver.tint = 0x7f7f7f;
-		this.cmp_bronze.tint = 0x7f7f7f;
-		this.cmp_life.tint = 0x7f7f7f;
+		this.cmp_text.text = scrManager.getHighScore()+"/"+scrManager.getMaxScore(lvlManager.getLevel().difficulty);
+		this.cmp_scrDiff.text = "+"+scrManager.getDiffScore();
+
+		//dynamic level data update
+		var ingots = scrManager.getIngots();
 
 
 		//show popup
@@ -115,17 +117,14 @@ var MainGame = {
 			level = Levels[i];
 			f = statusToInt(level.status);
 			//check if the button is locked
-			if (f==null) {
-				//button = game.add.image(level.btnX+60, level.btnY+60, 'btnLocked');
-			}
-			else {
+			if (f!=null) {
 				button = game.add.button(level.btnX+60, level.btnY+60, 'btn'+level.difficulty, this.callLevel, this, f+4, f, f+8, f);
 				button.hitArea = new Phaser.Circle(0, 0, button.width);
+				button.anchor.setTo(0.5);
+				button.data = level;
+				if(level.difficulty!='Boss') button.scale.set(0.7);
+				this.Buttons.add(button);
 			}
-			button.anchor.setTo(0.5);
-			button.data = level;
-			if(level.difficulty!='Boss') button.scale.set(0.7);
-			this.Buttons.add(button);
 		}
 	},
 
@@ -135,7 +134,8 @@ var MainGame = {
 		this.HUD_panel = game.add.image(0, 0, 'HUDpanel', null, this.HUD);
 		this.HUD_score = game.add.image(game.width-10, 35, 'HUDscore', null, this.HUD);
 		this.HUD_score.anchor.setTo(1, 0.5);
-		this.HUD_text = game.add.text(this.HUD_score.centerX+12, this.HUD_score.centerY+3, scrManager.getScore(), null, this.HUD);
+		this.HUD_text = game.add.text(this.HUD_score.centerX+12, this.HUD_score.centerY+3, null, null, this.HUD);
+		this.HUD_text.text = scrManager.getTotalScore();
 		this.HUD_text.anchor.setTo(0.5);
 		//add shared menu items
 		addMenuItems.call(this);
@@ -190,8 +190,12 @@ var MainGame = {
 		this.cmp_close.data.popup = this.cmpPopup;
 		this.cmp_score = game.add.image(this.cmp_close.centerX, this.cmp_close.top-20, 'cmpScore', null, this.cmpPopup);
 		this.cmp_score.anchor.setTo(0.5, 1);
-		this.cmp_scrText = game.add.text(this.cmp_score.centerX+12, this.cmp_score.centerY+3, '+9999', null, this.cmpPopup);
-		this.cmp_scrText.anchor.setTo(0.5);
+		this.cmp_scrDiff = game.add.text(this.cmp_score.centerX+12, this.cmp_score.centerY+3, '+9999', null, this.cmpPopup);
+		this.cmp_scrDiff.anchor.setTo(0.5);
+		this.cmp_gold.tint = 0x7f7f7f;
+		this.cmp_silver.tint = 0x7f7f7f;
+		this.cmp_bronze.tint = 0x7f7f7f;
+		this.cmp_life.tint = 0x7f7f7f;
 		this.cmpPopup.visible = false;
 	}
 };
