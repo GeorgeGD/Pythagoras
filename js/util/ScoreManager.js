@@ -33,11 +33,6 @@ function ScoreManager() {
 	};
 
 	this.calcRoomScore = function(prc_score) {
-		//format prc_score to [0;1]
-		if(prc_score>1) prc_score /= 100;
-		prc_score = game.math.roundTo(prc_score,-2);
-		console.log(prc_score);
-
 
 	};
 

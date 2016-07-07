@@ -78,7 +78,10 @@ var ShapesGame = {
 			this.AddTetrisItems();			
 			this.GenerateSolution();
 			this.InitAudion();
-			this.InversegameMatrix();	
+			this.InversegameMatrix();
+
+			//shared UI panel across all games
+			addHUDPanel.call(this);	
 		},
 		
 		update: function () 
@@ -297,6 +300,7 @@ var ShapesGame = {
 											
 						this.okUserItems++;
 						this.prcScore = this.okUserItems / this.allItemsCount;
+						updateIngot.call(this, this.prcScore);
 						
 						for (var p=1; p < fnd.length; p++)
 						{
