@@ -29,7 +29,7 @@ function ScoreManager() {
 	};
 
 	this.calculateAreas = function() {
-
+		//zone
 	};
 
 	this.calcRoomScore = function(prc_score) {
