@@ -10,12 +10,12 @@ function ScoreManager() {
 		oldScore = 0,
 		newScore = 0,
 		diffScore = 0,
-		roomCount = 0,
 		prcLevel = 0,
 		lifes = maxLifes,
 		lvlCompleted = false,
-		ingots = new Array();
+		rooms = new Array();
 		areaReq = new Array();
+	
 
 	this.cumulateNumbers = function(level) {
 
@@ -48,17 +48,15 @@ function ScoreManager() {
 
 		prc_score = formatPrcScore(prc_score);
 		prcLevel += prc_score;
-		roomCount++;
-
-		//add ingot reward
-		ingots.push(prc_score);
+		//add room score
+		rooms.push(prc_score);
 	};
 
 	this.calcLevelScore = function(level) {
 
 		oldScore = level.score;
 		var points = this.getMaxScore(level.difficulty);
-		prcLevel = game.math.roundTo(prcLevel/roomCount,-2);
+		prcLevel = game.math.roundTo(prcLevel/rooms.length,-2);
 		newScore = game.math.roundTo(prcLevel*points);
 		if(newScore > oldScore) {
 			//update TotalScore
@@ -71,13 +69,9 @@ function ScoreManager() {
 		lvlCompleted = true;
 
 		//dynamic Levels update before MainGame start
-		if(prcLevel == 1) {
-			level.status = 'gold';
-			if(lifes<3) lifes++;
-		}
-		else if(prcLevel >= 0.8) level.status = 'silver';
-		else if(prcLevel >= 0.6) level.status = 'bronze';
-		else lifes--;
+		if (prcLevel == 1) level.status = 'gold';
+		else if (prcLevel >= 0.8) level.status = 'silver';
+		else if (prcLevel >= 0.6) level.status = 'bronze';
 		updateElementLevelsArray(Levels.indexOf(level)+1, level.score, level.status);
 
 		//check for next area
@@ -91,10 +85,9 @@ function ScoreManager() {
 		oldScore = 0,
 		diffScore = 0,
 		newScore = 0,
-		roomCount = 0,
 		prcLevel = 0,
 		lvlCompleted = false;
-		ingots = new Array();
+		rooms = new Array();
 	};
 
 	this.getMaxScore = function(diff) {
@@ -130,6 +123,14 @@ function ScoreManager() {
 		game.state.start('MainGame');
 	};
 
+	//modify lifes
+	this.takeLife = function() {
+		lifes--;
+	};
+	this.giveLife = function() {
+		lifes++;
+	};
+
 	//getters
 	this.getLifes = function() {
 		return lifes;
@@ -155,7 +156,7 @@ function ScoreManager() {
 	this.getAreaReq = function(index) {
 		return areaReq[index];
 	};
-	this.getIngots = function() {
-		return ingots;
+	this.getRoomScores = function() {
+		return rooms;
 	};
 }

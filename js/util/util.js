@@ -25,7 +25,6 @@ function formatPrcScore(prc_score) {
 
 	if(prc_score>1) prc_score /= 100;
 	prc_score = game.math.roundTo(prc_score,-2);
-	console.log("format: "+prc_score);
 	return prc_score;
 }
 
@@ -188,7 +187,6 @@ function hudFX() {
 	//this is called after cmpPopup is closed
 	//life tokens FX
 	var life = null;
-	console.log("prcLevel is: "+scrManager.getPrcLevel());
 
 	//on poor performance take a life
 	if(scrManager.getPrcLevel()<0.6 && this.lifes.countDead()<3) {
@@ -196,6 +194,7 @@ function hudFX() {
 		life.tint = 0x4d4d4d;
 		life.scale.setTo(0.7);
 		life.alive = false;
+		scrManager.takeLife();
 		//Play FX
 	}
 	
@@ -205,6 +204,7 @@ function hudFX() {
 		life.tint = 0xffffff;
 		life.scale.setTo(1);
 		life.alive = true;
+		scrManager.giveLife();
 		//Play FX
 	}	
 }
