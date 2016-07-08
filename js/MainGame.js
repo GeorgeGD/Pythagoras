@@ -29,10 +29,9 @@ var MainGame = {
 		if(scrManager.getCompleted()) {
 			this.callComplete();
 		}
-
-		//check for victory conditions
-		if(scrManager.getLifes()<0) {
-			this.cmp_close.events.onInputUp.add(this.callCampaignEnd, this);
+		//First time enter - campaign end condition
+		else {
+			this.checkEndCondition();
 		}
 
 		//assign events
@@ -51,6 +50,36 @@ var MainGame = {
 			game.camera.x += this.lastposX-pointer.x;
 			this.lastposX = pointer.x;
 		}
+	},
+
+	updateHUD: function() {
+		//general hud FX function
+		//this is called after cmpPopup is closed
+		//life tokens FX
+		var life = null;
+
+		//on poor performance take a life
+		if(scrManager.getPrcLevel()<0.6 && this.lifes.countDead()<3) {
+			life = this.lifes.children[this.lifes.countDead()];
+			life.tint = 0x4d4d4d;
+			life.scale.setTo(0.7);
+			life.alive = false;
+			scrManager.takeLife();
+			//Play FX
+		}
+		
+		//on gold token give a life
+		if(scrManager.getPrcLevel()==1 && this.lifes.countLiving()<3) {
+			life = this.lifes.children[this.lifes.countLiving()];
+			life.tint = 0xffffff;
+			life.scale.setTo(1);
+			life.alive = true;
+			scrManager.giveLife();
+			//Play FX
+		}
+
+		//check for end of campaign
+		this.checkEndCondition();
 	},
 
 	//show and close popups
@@ -155,13 +184,26 @@ var MainGame = {
 		btn.data.popup.visible = false;
 		this.cameraEnabled = true;
 		this.PopupView = false;
-		//if its the cmpPopup call for HUD FX
+		//if its the cmpPopup call for HUD update
 		if(btn.data.name=='cmpPopup')
-			hudFX.call(this);
+			this.updateHUD();
+	},
+
+	checkEndCondition: function() {
+
+		//if victory is achieved show campaign end
+		if(scrManager.isWin()) {
+			this.callCampaignEnd(true);
+		}
+
+		//check for lose conditions
+		if(scrManager.isLose()) {
+			this.callCampaignEnd(false);
+		}
 	},
 
 	//call campaign end
-	callCampaignEnd: function() {
+	callCampaignEnd: function(victory) {
 
 		this.cameraEnabled = false;
 		this.endCover = game.add.sprite(game.camera.position.x, game.camera.position.y, 'white');
@@ -170,18 +212,46 @@ var MainGame = {
 		this.endCover.width = game.width;
 		this.endCover.height = game.height;
 		this.endCover.fixedToCamera = true;
-
-		//end cover tween
 		var tween = game.add.tween(this.endCover);
 		tween.to( { alpha: 0.8 }, 1000, Phaser.Easing.Linear.None, true);
+
 		tween.onComplete.add(function() {
-			this.restart = game.add.text(this.endCover.centerX, this.endCover.centerY, "Restart");
-			this.restart.anchor.setTo(0.5);
-			this.restart.inputEnabled = true;
-			this.restart.events.onInputUp.add(function() {
-				scrManager.campaignRestart();
-			}, this);
+
+			//add objects to layer
+			this.statement = game.add.text(this.endCover.centerX, this.endCover.centerY-120);
+			this.statement.anchor.setTo(0.5);
+			this.fScore = game.add.image(this.endCover.centerX-40, this.endCover.centerY-30, 'HUDscore');
+			this.fScore.anchor.setTo(0.5);
+			this.fsText = game.add.text(this.fScore.centerX+12, this.fScore.centerY+3);
+			this.fsText.text = scrManager.getTotalScore();
+			this.fsText.anchor.setTo(0.5);
+			this.lboard = game.add.button(this.fScore.right+60, this.fScore.y, 'btnLadder', callLadder, this, 0, 1, 2);
+			this.lboard.hitArea = new Phaser.Circle(0, 0, this.lboard.width);
+			this.lboard.scale.setTo(0.7);
+			this.lboard.anchor.setTo(0.5);
+
+			//assign properties according to condition
+			if(victory) {
+				//player is victorious
+				this.statement.text = "YOU ARE VICTORIOUS!";
+				this.statement.addColor('#009900', 0);
+			}
+			else {
+				//player is defeated
+				this.statement.text = "YOU ARE DEFEATED!";
+				this.statement.addColor('#cc0000', 0);
+			}
+
+			//add restart button
+			this.restart = game.add.button(this.endCover.centerX, this.lboard.bottom+30, 'restart', scrManager.campaignRestart);
+			this.restart.setFrames(0, 1);
+			this.restart.anchor.setTo(0.5, 0);
+			this.restart.scale.setTo(0.7);
 		}, this);
+
+
+
+		//start campaign end tween
 		tween.start();
 	},
 

@@ -30,6 +30,7 @@ var PreloadState = {
 		game.load.spritesheet('btnMedium', 'assets/main_files/lvl_button_medium.png', 157, 157);
 		game.load.spritesheet('btnHard', 'assets/main_files/lvl_button_hard.png', 157, 157);
 		game.load.spritesheet('btnBoss', 'assets/main_files/lvl_button_boss.png', 157, 157);
+		game.load.spritesheet('restart', 'assets/main_files/restart.png', 168, 168);
 
 		//menu assets
 		game.load.image('smallPanel', 'assets/small_panel.png');

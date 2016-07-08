@@ -181,34 +181,6 @@ function lastIngotFX() {
 	}
 }
 
-function hudFX() {
-
-	//general hud FX function
-	//this is called after cmpPopup is closed
-	//life tokens FX
-	var life = null;
-
-	//on poor performance take a life
-	if(scrManager.getPrcLevel()<0.6 && this.lifes.countDead()<3) {
-		life = this.lifes.children[this.lifes.countDead()];
-		life.tint = 0x4d4d4d;
-		life.scale.setTo(0.7);
-		life.alive = false;
-		scrManager.takeLife();
-		//Play FX
-	}
-	
-	//on gold token give a life
-	if(scrManager.getPrcLevel()==1 && this.lifes.countLiving()<3) {
-		life = this.lifes.children[this.lifes.countLiving()];
-		life.tint = 0xffffff;
-		life.scale.setTo(1);
-		life.alive = true;
-		scrManager.giveLife();
-		//Play FX
-	}	
-}
-
 //prototypes
 //score json prototype
 var currentGlobalGame = {
