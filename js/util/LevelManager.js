@@ -11,10 +11,8 @@ function LevelManager() {
 	this.loadData = function() {
 		var level = null;
 		var servData = null;
-
 		//load level data from our .json file
 		Levels = game.cache.getJSON('levelData');
-
 		//communicate with ScoreManager and determine active area
 		for(var i=0; i<Levels.length; i++) {
 			level = Levels[i];
@@ -34,7 +32,6 @@ function LevelManager() {
 		cameraPos = game.camera.position;
 		nextScene = 0;
 		activeLevel = level;
-		
 		this.startNextScene();
 	};
 

@@ -12,7 +12,7 @@ function ScoreManager() {
 		newScore = 0,
 		roomCount = 0,
 		prcLevel = 0,
-		lifes = 0,
+		lifes = maxLifes,
 		lvlCompleted = false,
 		ingots = new Array();
 		areaReq = new Array();
@@ -29,7 +29,6 @@ function ScoreManager() {
 		}
 		if (!areaReq[level.area+1]) areaReq[level.area+1] = 0;
 		areaReq[level.area+1] += points;
-
 		//calculate totalScore
 		totalScore += level.score;
 	};
@@ -51,12 +50,10 @@ function ScoreManager() {
 	};
 
 	this.calcLevelScore = function(level) {
-
 		highScore = level.score;
 		var points = this.getMaxScore(level.difficulty);
-		prcLevel /= roomCount;
+		prcLevel = game.math.roundTo(prcLevel/roomCount,-2);
 		newScore = game.math.roundTo(prcLevel*points);
-
 		if(newScore > highScore) {
 
 			//update TotalScore
@@ -64,18 +61,19 @@ function ScoreManager() {
 			totalScore += diffScore;
 			highScore = newScore;
 		}
-
 		//level completed
 		lvlCompleted = true;
-
 		//dynamic Levels update before MainGame start
 		//eventually move to MainGame animation
 		level.score = highScore;
-		if(prcLevel == 1) 	level.status = 'gold';
+		if(prcLevel == 1) {
+			level.status = 'gold';
+			if(lifes<3) lifes++;
+		}
 		else if(prcLevel >= 0.8) level.status = 'silver';
 		else if(prcLevel >= 0.6) level.status = 'bronze';
+		lifes--;
 		updateElementLevelsArray(Levels.indexOf(level)+1, level.score, level.status);
-
 		//check for next area
 		if(totalScore>=areaReq[lvlManager.getArea()+1]) {
 			lvlManager.unlockNextArea();
@@ -105,8 +103,11 @@ function ScoreManager() {
 	};
 
 	this.campaignRestart = function () {
+		//reset lifes
+		lifes = maxLifes;
+		totalScore = 0;
+		lvlManager = new LevelManager();
 		for(var i = 0; i<Levels.length; i++) {
-
 			//reset score and status
 			var level = Levels[i];
 			level.score = 0;
@@ -115,9 +116,13 @@ function ScoreManager() {
 			//update server info
 			updateElementLevelsArray(i+1, level.score, level.status);
 		}
+		game.state.start('MainGame');
 	};
 
 	//getters
+	this.getLifes = function() {
+		return lifes;
+	};
 	this.getTotalScore = function() {
 		return totalScore;
 	};
@@ -129,6 +134,9 @@ function ScoreManager() {
 	};
 	this.getDiffScore = function() {
 		return diffScore;
+	};
+	this.getPrcLevel = function() {
+		return prcLevel;
 	};
 	this.getCompleted = function() {
 		return lvlCompleted;

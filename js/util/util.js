@@ -13,7 +13,6 @@ function statusToInt(status) {
 
 //call level
 function start(btn) {
-
 	if (btn.data) {
 	lvlManager.startLevel(btn.data);
 	}
@@ -29,14 +28,25 @@ function formatPrcScore(prc_score) {
 
 //game UI panel and shared menu items
 function addHUDPanel() {
+	addPauseCover.call(this);
+	//HUD
 	this.HUD = game.add.group();			
 	this.HUD_panel = game.add.image(0, 0, 'smallPanel', null, this.HUD);
 	addMenuItems.call(this);
-
 	//dynamic score ingots
 	this.HUD_ingot = game.add.sprite(171, this.btn_menu.centerY, 'ingots', null, this.HUD);
 	this.HUD_ingot.anchor.setTo(0.5);
 	this.HUD_ingot.visible = false;
+}
+
+function addPauseCover() {
+	//white pause cover
+	this.pauseWhite = game.add.sprite(game.camera.position.x, game.camera.position.y, 'white');
+    this.pauseWhite.alpha = 0.8;
+	this.pauseWhite.width = game.width;
+	this.pauseWhite.height = game.height;
+	this.pauseWhite.fixedToCamera = true;
+	this.pauseWhite.visible = false;
 }
 
 //update ingot frame
@@ -65,17 +75,10 @@ function updateIngot(prc_score) {
 
 //add common Menu objects
 function addMenuItems() {
-
+	//add menu button
 	this.btn_menu = game.add.button(10, 35, 'btnMenu', callMenu, this, 0, 1, 2, 0, this.HUD);
 	this.btn_menu.anchor.setTo(0, 0.5);
 	this.btn_menu.scale.set(0.5);
-	//white pause cover
-	this.pauseWhite = game.add.sprite(game.camera.position.x, game.camera.position.y, 'white');
-    this.pauseWhite.alpha = 0.8;
-	this.pauseWhite.width = game.width;
-	this.pauseWhite.height = game.height;
-	this.pauseWhite.fixedToCamera = true;
-	this.pauseWhite.visible = false;
 	//add menu popup
 	var delim = 60;
 	this.mnPopup = game.add.group();
@@ -108,10 +111,19 @@ function addMenuItems() {
 	this.btn_menu.data.popup = this.mnPopup;
 }
 
+//menu functionality
+//menu button call method
+ function callMenu(btn) {
+	if(btn.data.popup.visible) btn.data.popup.visible = false;
+	else btn.data.popup.visible = true;
+}
+
 function switchPause(btn) {
 	//game.paused = !game.paused;
 	this.pauseWhite.visible = !this.pauseWhite.visible;
 	this.pauseWhite.inputEnabled = !this.pauseWhite.inputEnabled;
+	if(this.PopupView) this.cameraEnabled = false;
+	else this.cameraEnabled = !this.cameraEnabled;
 }
 
 function switchSound(btn) {
@@ -129,18 +141,6 @@ function callHome(btn) {
 	if (game.state.current!='MainGame') game.state.start('MainGame');
 }
 
-//menu button call method
- function callMenu(btn) {
-	if(btn.data.popup.visible) {
-
-		btn.data.popup.visible = false;
-	}
-	else {
-
-		btn.data.popup.visible = true;
-	}
-}
-
 //prototypes
 //score json prototype
 var currentGlobalGame = {
@@ -148,13 +148,13 @@ var currentGlobalGame = {
 	{Level:'Level1', Score: 0, Status: 'open'},
 	{Level:'Level2', Score: 0, Status: 'open'},
 	{Level:'Level3', Score: 0, Status: 'open'},
-	{Level:'Level4', Score: 0, Status: 'open'},
-	{Level:'Level5', Score: 0, Status: 'open'},
-	{Level:'Level6', Score: 0, Status: 'open'},
-	{Level:'Level7', Score: 0, Status: 'open'},
-	{Level:'Level8', Score: 0, Status: 'open'},
-	{Level:'Level9', Score: 0, Status: 'open'},
-	{Level:'Level10', Score: 0, Status: 'open'}
+	{Level:'Level4', Score: 0, Status: 'locked'},
+	{Level:'Level5', Score: 0, Status: 'locked'},
+	{Level:'Level6', Score: 0, Status: 'locked'},
+	{Level:'Level7', Score: 0, Status: 'locked'},
+	{Level:'Level8', Score: 0, Status: 'locked'},
+	{Level:'Level9', Score: 0, Status: 'locked'},
+	{Level:'Level10', Score: 0, Status: 'locked'}
 	]
 };
 

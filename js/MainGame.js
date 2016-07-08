@@ -12,23 +12,27 @@ var MainGame = {
 		game.camera.position = lvlManager.getCameraPos();
 		game.add.image(0, 0, 'canvas');
 		this.cameraEnabled = true;
+		this.PopupView = false;
 
 		//add level buttons
 		this.addLevelButtons();
 		//add area overlay
 		this.addAreaOverlay();
-		//add objects to HUD group
-		this.addHUD();
 		//add objects to level popup group
 		this.addLevelPopup();
 		//add objects to complete popup group
 		this.addCompletePopup();
-		//add campaign end screen
-		this.addCampaignEnd();
+		//add objects to HUD group
+		this.addHUD();
 
 		//show popup if a level is completed
 		if(scrManager.getCompleted()) {
 			this.callComplete();
+		}
+
+		//check for victory conditions
+		if(scrManager.getLifes()<0) {
+			this.cmp_close.events.onInputUp.add(this.callCampaignEnd, this);
 		}
 
 		//assign events
@@ -58,23 +62,39 @@ var MainGame = {
 		this.lvlPopup.position.setTo(game.camera.x+(game.width-this.lvl_panel.width)/2, (game.height-this.lvl_panel.height)/2);
 		this.lvlPopup.visible = true;
 		this.cameraEnabled = false;
+		this.PopupView = true;
 	},
 
 	//complete popup
 	callComplete: function() {
-
+		//show popup and disable input
 		this.Buttons.setAll('inputEnabled', false);
+		this.cmpPopup.visible = true;
+		this.cameraEnabled = false;
+		this.PopupView = true;
+		//tween objects
 		this.cmpPopup.position.setTo(game.camera.x+(game.width-this.cmp_panel.width)/2, (game.height-this.cmp_panel.height)/2);
 		this.cmp_text.text = scrManager.getHighScore()+"/"+scrManager.getMaxScore(lvlManager.getLevel().difficulty);
 		this.cmp_scrDiff.text = "+"+scrManager.getDiffScore();
-
-		//dynamic level data update
+		//tween ingots
 		var ingots = scrManager.getIngots();
-
-
-		//show popup
-		this.cmpPopup.visible = true;
-		this.cameraEnabled = false;
+		//tween lifes
+		//if no token lose a life
+		var life = null;
+		console.log("prcLevel is: "+scrManager.getPrcLevel());
+		if(scrManager.getPrcLevel()<0.6 && this.lifes.countDead()<3) {
+			life = this.lifes.children[this.lifes.countDead()];
+			life.tint = 0x4d4d4d;
+			life.scale.setTo(0.7);
+			life.alive = false;
+		}
+		//if gold token win a life, if life<3
+		if(scrManager.getPrcLevel()==1 && this.lifes.countLiving()<3) {
+			life = this.lifes.children[this.lifes.countLiving()];
+			life.tint = 0xffffff;
+			life.scale.setTo(1);
+			life.alive = true;
+		}
 		//reset score manager
 		scrManager.reset();
 	},
@@ -84,6 +104,29 @@ var MainGame = {
 		this.Buttons.setAll('inputEnabled', true);
 		btn.data.popup.visible = false;
 		this.cameraEnabled = true;
+		this.PopupView = false;
+	},
+
+	//call campaign end
+	callCampaignEnd: function() {
+		this.cameraEnabled = false;
+		this.endCover = game.add.sprite(game.camera.position.x, game.camera.position.y, 'white');
+		this.endCover.inputEnabled = !this.endCover.inputEnabled;
+	    this.endCover.alpha = 0;
+		this.endCover.width = game.width;
+		this.endCover.height = game.height;
+		this.endCover.fixedToCamera = true;
+		var tween = game.add.tween(this.endCover);
+		tween.to( { alpha: 0.8 }, 1000, Phaser.Easing.Linear.None, true);
+		tween.onComplete.add(function() {
+			this.restart = game.add.text(this.endCover.centerX, this.endCover.centerY, "Restart");
+			this.restart.anchor.setTo(0.5);
+			this.restart.inputEnabled = true;
+			this.restart.events.onInputUp.add(function() {
+				scrManager.campaignRestart();
+			}, this);
+		}, this);
+		tween.start();
 	},
 
 	//add assets to the state
@@ -133,6 +176,7 @@ var MainGame = {
 
 	//HUD object
 	addHUD: function() {
+		addPauseCover.call(this);
 		this.HUD = game.add.group();
 		this.HUD_panel = game.add.image(0, 0, 'HUDpanel', null, this.HUD);
 		this.HUD_score = game.add.image(game.width-10, 35, 'HUDscore', null, this.HUD);
@@ -144,9 +188,19 @@ var MainGame = {
 		addMenuItems.call(this);
 		//add lifes
 		this.lifes = game.add.group(this.HUD);
-		this.lifes.createMultiple(3, 'lifeToken', null, true);
-		this.lifes.align(-1, 1, this.btn_menu.height, this.btn_menu.height, Phaser.CENTER);
-		this.lifes.position.setTo(this.HUD_score.left-200, this.btn_menu.top);
+		this.lifes.createMultiple(maxLifes, 'lifeToken', null, true);
+		for(var i=0; i<maxLifes; i++) {
+			var life = this.lifes.children[i];
+			//if life position is less than lifes, kill it
+			if(i<maxLifes-scrManager.getLifes()) {
+				life.tint = 0x4d4d4d;
+				life.scale.setTo(0.7);
+				life.alive = false;
+			}
+			life.anchor.setTo(0.5);
+		}
+		this.lifes.align(-1, 1, -this.btn_menu.height, this.btn_menu.height, Phaser.CENTER);
+		this.lifes.position.setTo(this.HUD_score.left-20, this.btn_menu.top);
 		//fix HUD to camera
 		this.HUD.fixedToCamera = true;
 	},
@@ -200,9 +254,5 @@ var MainGame = {
 		this.cmp_bronze.tint = 0x7f7f7f;
 		this.cmp_life.tint = 0x7f7f7f;
 		this.cmpPopup.visible = false;
-	},
-
-	addCampaignEnd: function() {
-
 	},
 };
