@@ -123,6 +123,14 @@ function ScoreManager() {
 		game.state.start('MainGame');
 	};
 
+	//victory conditions
+	this.isWin = function() {
+		return Levels[Levels.length-1].score>0;
+	};
+	this.isLose = function() {
+		return lifes<0;
+	};
+
 	//modify lifes
 	this.takeLife = function() {
 		lifes--;
