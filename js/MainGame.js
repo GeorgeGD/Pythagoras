@@ -95,8 +95,9 @@ var MainGame = {
 
 		//tween ingots
 		//test with: var ingArray = [1, 1, 1, 1, 1];
-		var ingArray = scrManager.getIngots();
-		//create ingots and add effects if they exist
+		var ingArray = scrManager.getRoomScores();
+
+		//if the player has earned ingots then create them
 		if(ingArray.length>0) {
 
 			var frame = null;
@@ -126,20 +127,23 @@ var MainGame = {
 				this.tweens.push(game.add.tween(ingot));
 				pos.x = ingot.right;
 			}
-			//add effect for the ingots
-			this.next = 0;
-			//put life token on top of all ingots
-			this.cmp_life.bringToTop();
-			for (var i=0; i<this.tweens.length; i++) {
-				this.tweens[i].to({alpha: 1}, 100, 'Linear', false, 200);
-				if (i<this.tweens.length-1)
-				//chain ingot complete FX events 
-					this.tweens[i].onComplete.add( nextIngotFX, this);
-				else
-				//place a special FX for the last ingot
-					this.tweens[i].onComplete.add( lastIngotFX, this);
-			}	
-			this.tweens[0].start();
+
+			//if there are any ingots add effect for the them
+			if(this.tweens.length>0) {
+				this.next = 0;
+				//put life token on top of all ingots
+				this.cmp_life.bringToTop();
+				for (var i=0; i<this.tweens.length; i++) {
+					this.tweens[i].to({alpha: 1}, 100, 'Linear', false, 200);
+					if (i<this.tweens.length-1)
+					//chain ingot complete FX events 
+						this.tweens[i].onComplete.add( nextIngotFX, this);
+					else
+					//place a special FX for the last ingot
+						this.tweens[i].onComplete.add( lastIngotFX, this);
+				}	
+				this.tweens[0].start();
+			}
 		}
 		//end of if(ingArray.length>0)
 	},
