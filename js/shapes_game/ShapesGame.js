@@ -63,8 +63,7 @@ var ShapesGame = {
 		{
 			//var level = parseInt(game.net.getQueryString('l'));
 			//if (!(isNaN(level))) {  this.LoadLevelSettings(level); }
-			var level = 1;
-			this.LoadLevelSettings(level);
+			this.LoadLevelSettings(lvlManager.getDifficulty());
 			
 			game.world.setBounds(0, 0, 1024, 672);
 			this.prcScore = 0;

@@ -71,6 +71,20 @@ function LevelManager() {
 		}
 	};
 
+	//get difficulty for mini games
+	this.getDifficulty = function() {
+
+		var diff = 0;
+		switch (activeLevel.difficulty) {
+			case 'Easy': 	diff = 1; break;
+			case 'Medium': 	diff = 2; break;
+			case 'Hard':   	diff = 3; break;
+			case 'Boss':    diff = 3; break;
+			default: break;
+		}
+		return diff;
+	}
+
 	//getters
 	this.getArea = function() {
 		return activeArea;
@@ -81,4 +95,6 @@ function LevelManager() {
 	this.getCameraPos = function() {
 		return cameraPos;
 	};
+
+
 };
