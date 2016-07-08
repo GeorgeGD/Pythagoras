@@ -2,6 +2,7 @@
 
 //convert level status to int
 function statusToInt(status) {
+
 	switch(status) {
 		case 'open': 	return 0;
 		case 'bronze': 	return 1;
@@ -13,6 +14,7 @@ function statusToInt(status) {
 
 //call level
 function start(btn) {
+
 	if (btn.data) {
 	lvlManager.startLevel(btn.data);
 	}
@@ -20,6 +22,7 @@ function start(btn) {
 
 //format score to [0;1]
 function formatPrcScore(prc_score) {
+
 	if(prc_score>1) prc_score /= 100;
 	prc_score = game.math.roundTo(prc_score,-2);
 	console.log("format: "+prc_score);
@@ -28,6 +31,7 @@ function formatPrcScore(prc_score) {
 
 //game UI panel and shared menu items
 function addHUDPanel() {
+
 	addPauseCover.call(this);
 	//HUD
 	this.HUD = game.add.group();			
@@ -40,6 +44,7 @@ function addHUDPanel() {
 }
 
 function addPauseCover() {
+
 	//white pause cover
 	this.pauseWhite = game.add.sprite(game.camera.position.x, game.camera.position.y, 'white');
     this.pauseWhite.alpha = 0.8;
@@ -49,10 +54,88 @@ function addPauseCover() {
 	this.pauseWhite.visible = false;
 }
 
-//update ingot frame
-function updateIngot(prc_score) {
+//add common Menu objects
+function addMenuItems() {
+
+	//add menu button
+	this.btn_menu = game.add.button(10, 35, 'btnMenu', callMenu, this, 0, 1, 2, 0, this.HUD);
+	this.btn_menu.anchor.setTo(0, 0.5);
+	this.btn_menu.scale.set(0.5);
+
+	//add menu popup
+	var delim = 60;
+	this.mnPopup = game.add.group();
+	this.mn_panel = game.add.image(10, 80, 'menuPanel', null, this.mnPopup);
+	this.mn_panel.inputEnabled = !this.mn_panel.inputEnabled;
+	this.mn_pause = game.add.button(this.mn_panel.centerX, this.mn_panel.y+delim+20, 'btnPause', switchPause, this, 0, 1, 2);
+	this.mn_pause.hitArea = new Phaser.Circle(0, 0, this.mn_pause.width);
+	this.mn_pause.anchor.setTo(0.5);
+	this.mn_pause.scale.setTo(0.7);
+	this.mn_sound = game.add.button(this.mn_panel.centerX, this.mn_pause.bottom+delim, 'btnSound', switchSound, this);
+	this.mn_sound.hitArea = new Phaser.Circle(0, 0, this.mn_sound.width);
+	this.mn_sound.anchor.setTo(0.5);
+	this.mn_sound.scale.setTo(0.7);
+
+	//set frames for sound button
+	if(game.sound.mute)	this.mn_sound.setFrames(2, 3);
+	else this.mn_sound.setFrames(0, 1);
+
+	//continue...
+	this.mn_ladder = game.add.button(this.mn_panel.centerX, this.mn_sound.bottom+delim, 'btnLadder', callLadder, this, 0, 1, 2);
+	this.mn_ladder.hitArea = new Phaser.Circle(0, 0, this.mn_ladder.width);
+	this.mn_ladder.anchor.setTo(0.5);
+	this.mn_ladder.scale.setTo(0.7);	
+	this.mn_home = game.add.button(this.mn_panel.centerX, this.mn_ladder.bottom+delim, 'btnHome', callHome, this, 0, 1, 2);
+	this.mn_home.hitArea = new Phaser.Circle(0, 0, this.mn_home.width);
+	this.mn_home.anchor.setTo(0.5);
+	this.mn_home.scale.setTo(0.7);
+	this.mnPopup.addMultiple([this.mn_pause, this.mn_sound, this.mn_ladder, this.mn_home]);
+	this.mnPopup.visible = false;
+	this.mnPopup.fixedToCamera = true;
+
+	//add data to menu button
+	this.btn_menu.data.popup = this.mnPopup;
+}
+
+//menu functionality
+ function callMenu(btn) {
+
+	if(btn.data.popup.visible) btn.data.popup.visible = false;
+	else btn.data.popup.visible = true;
+}
+
+function switchPause(btn) {
+
+	//game.paused = !game.paused;
+	this.pauseWhite.visible = !this.pauseWhite.visible;
+	this.pauseWhite.inputEnabled = !this.pauseWhite.inputEnabled;
+	if(this.PopupView) this.cameraEnabled = false;
+	else this.cameraEnabled = !this.cameraEnabled;
+}
+
+function switchSound(btn) {
+
+	game.sound.mute = !game.sound.mute;
+	if(game.sound.mute)	btn.setFrames(2, 3);
+	else btn.setFrames(0, 1);
+}
+
+function callLadder(btn) {
+
+	//go to ladder page
+}
+
+function callHome(btn) {
+
+	scrManager.reset();
+	if (game.state.current!='MainGame') game.state.start('MainGame');
+}
+
+//FX functions
+function updateIngotFX(prc_score) {
+
 	prc_score = formatPrcScore(prc_score);
-	//check
+
 	if(prc_score==1) {
 		this.HUD_ingot.frame = 2;
 		this.HUD_ingot.scale.setTo(1);
@@ -73,72 +156,57 @@ function updateIngot(prc_score) {
 	}
 }
 
-//add common Menu objects
-function addMenuItems() {
-	//add menu button
-	this.btn_menu = game.add.button(10, 35, 'btnMenu', callMenu, this, 0, 1, 2, 0, this.HUD);
-	this.btn_menu.anchor.setTo(0, 0.5);
-	this.btn_menu.scale.set(0.5);
-	//add menu popup
-	var delim = 60;
-	this.mnPopup = game.add.group();
-	this.mn_panel = game.add.image(10, 80, 'menuPanel', null, this.mnPopup);
-	this.mn_panel.inputEnabled = !this.mn_panel.inputEnabled;
-	this.mn_pause = game.add.button(this.mn_panel.centerX, this.mn_panel.y+delim+20, 'btnPause', switchPause, this, 0, 1, 2);
-	this.mn_pause.hitArea = new Phaser.Circle(0, 0, this.mn_pause.width);
-	this.mn_pause.anchor.setTo(0.5);
-	this.mn_pause.scale.setTo(0.7);
-	this.mn_sound = game.add.button(this.mn_panel.centerX, this.mn_pause.bottom+delim, 'btnSound', switchSound, this);
-	this.mn_sound.hitArea = new Phaser.Circle(0, 0, this.mn_sound.width);
-	this.mn_sound.anchor.setTo(0.5);
-	this.mn_sound.scale.setTo(0.7);
-	//set frames for sound button
-	if(game.sound.mute)	this.mn_sound.setFrames(2, 3);
-	else this.mn_sound.setFrames(0, 1);
-	//continue
-	this.mn_ladder = game.add.button(this.mn_panel.centerX, this.mn_sound.bottom+delim, 'btnLadder', callLadder, this, 0, 1, 2);
-	this.mn_ladder.hitArea = new Phaser.Circle(0, 0, this.mn_ladder.width);
-	this.mn_ladder.anchor.setTo(0.5);
-	this.mn_ladder.scale.setTo(0.7);	
-	this.mn_home = game.add.button(this.mn_panel.centerX, this.mn_ladder.bottom+delim, 'btnHome', callHome, this, 0, 1, 2);
-	this.mn_home.hitArea = new Phaser.Circle(0, 0, this.mn_home.width);
-	this.mn_home.anchor.setTo(0.5);
-	this.mn_home.scale.setTo(0.7);
-	this.mnPopup.addMultiple([this.mn_pause, this.mn_sound, this.mn_ladder, this.mn_home]);
-	this.mnPopup.visible = false;
-	this.mnPopup.fixedToCamera = true;
-	//add data to menu button
-	this.btn_menu.data.popup = this.mnPopup;
+function nextIngotFX() {
+
+	this.next++;
+	if (this.tweens[this.next])
+		this.tweens[this.next].start();
+	//play FX
 }
 
-//menu functionality
-//menu button call method
- function callMenu(btn) {
-	if(btn.data.popup.visible) btn.data.popup.visible = false;
-	else btn.data.popup.visible = true;
+function lastIngotFX() {
+
+	var ingot = this.tweens[this.next].target;
+	if(ingot.right>=this.cmp_bronze.x) {
+		this.cmp_bronze.tint = 0xffffff;
+		//play FX
+	}
+	if(ingot.right>=this.cmp_silver.x) {
+		this.cmp_silver.tint = 0xffffff;
+		//play FX
+	}
+	if(ingot.right>=this.cmp_life.left) {
+		this.cmp_gold.tint = 0xffffff;
+		this.cmp_life.tint = 0xffffff;
+		//play FX
+	}
 }
 
-function switchPause(btn) {
-	//game.paused = !game.paused;
-	this.pauseWhite.visible = !this.pauseWhite.visible;
-	this.pauseWhite.inputEnabled = !this.pauseWhite.inputEnabled;
-	if(this.PopupView) this.cameraEnabled = false;
-	else this.cameraEnabled = !this.cameraEnabled;
-}
+function hudFX() {
 
-function switchSound(btn) {
-	game.sound.mute = !game.sound.mute;
-	if(game.sound.mute)	btn.setFrames(2, 3);
-	else btn.setFrames(0, 1);
-}
+	//general hud FX function
+	//this is called after cmpPopup is closed
+	//life tokens FX
+	var life = null;
+	console.log("prcLevel is: "+scrManager.getPrcLevel());
 
-function callLadder(btn) {
-
-}
-
-function callHome(btn) {
-	scrManager.reset();
-	if (game.state.current!='MainGame') game.state.start('MainGame');
+	//on poor performance take a life
+	if(scrManager.getPrcLevel()<0.6 && this.lifes.countDead()<3) {
+		life = this.lifes.children[this.lifes.countDead()];
+		life.tint = 0x4d4d4d;
+		life.scale.setTo(0.7);
+		life.alive = false;
+		//Play FX
+	}
+	
+	//on gold token give a life
+	if(scrManager.getPrcLevel()==1 && this.lifes.countLiving()<3) {
+		life = this.lifes.children[this.lifes.countLiving()];
+		life.tint = 0xffffff;
+		life.scale.setTo(1);
+		life.alive = true;
+		//Play FX
+	}	
 }
 
 //prototypes

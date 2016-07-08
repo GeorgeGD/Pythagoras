@@ -300,7 +300,7 @@ var ShapesGame = {
 											
 						this.okUserItems++;
 						this.prcScore = this.okUserItems / this.allItemsCount;
-						updateIngot.call(this, this.prcScore);
+						updateIngotFX.call(this, this.prcScore);
 						
 						for (var p=1; p < fnd.length; p++)
 						{
