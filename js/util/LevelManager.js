@@ -30,15 +30,11 @@ function LevelManager() {
 	};
 
 	//start level with label
-	this.startLevel = function(label) {
+	this.startLevel = function(level) {
 		cameraPos = game.camera.position;
-		//find the level
-		for (var i in Levels) {
-			if (Levels[i].label == label) {
-				activeLevel = Levels[i];
-				break;
-			}
-		}
+		nextScene = 0;
+		activeLevel = level;
+		
 		this.startNextScene();
 	};
 

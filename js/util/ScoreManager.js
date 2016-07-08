@@ -12,6 +12,7 @@ function ScoreManager() {
 		newScore = 0,
 		roomCount = 0,
 		prcLevel = 0,
+		lifes = 0,
 		lvlCompleted = false,
 		ingots = new Array();
 		areaReq = new Array();
@@ -101,6 +102,19 @@ function ScoreManager() {
 			default: break;
 		}
 		return points;
+	};
+
+	this.campaignRestart = function () {
+		for(var i = 0; i<Levels.length; i++) {
+
+			//reset score and status
+			var level = Levels[i];
+			level.score = 0;
+			if(level.area==1) level.status = 'open';
+			else level.status = 'locked';
+			//update server info
+			updateElementLevelsArray(i+1, level.score, level.status);
+		}
 	};
 
 	//getters

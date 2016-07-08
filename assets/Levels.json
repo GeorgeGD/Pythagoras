@@ -4,79 +4,79 @@
 		"area": 1,
 		"difficulty":"Easy",
 		"scenario":["ShapesGame"],
-		"btnX": 226, 
-		"btnY": 240
+		"btnX": 349, 
+		"btnY": 352
 	},
 	{
 		"label":"Level2",
 		"area": 1,
 		"difficulty":"Easy",
 		"scenario":["ShapesGame"],
-		"btnX": 411,
-		"btnY": 477 
+		"btnX": 467,
+		"btnY": 513 
 	},
 	{
 		"label":"Level3",
 		"area": 1,
 		"difficulty":"Medium",
 		"scenario":["ShapesGame", "ShapesGame"],
-		"btnX": 461, 
-		"btnY": 133
+		"btnX": 514, 
+		"btnY": 193
 	},
 	{
 		"label":"Level4",
 		"area": 2,
 		"difficulty":"Easy",
 		"scenario":["ShapesGame"],
-		"btnX": 834, 
-		"btnY": 336
+		"btnX": 921, 
+		"btnY": 321
 	},
 	{
 		"label":"Level5",
 		"area": 2,
 		"difficulty":"Medium",
 		"scenario":["ShapesGame", "ShapesGame"],
-		"btnX": 1126, 
-		"btnY": 464
+		"btnX": 1141, 
+		"btnY": 475
 	},
 	{
 		"label":"Level6",
 		"area": 2,
 		"difficulty":"Hard",
 		"scenario":["ShapesGame", "ShapesGame", "ShapesGame"],
-		"btnX": 1038, 
-		"btnY": 119
+		"btnX": 1210, 
+		"btnY": 172
 	},
 	{
 		"label":"Level7",
 		"area": 3,
 		"difficulty":"Medium",
 		"scenario":["ShapesGame", "ShapesGame"],
-		"btnX": 1659, 
-		"btnY": 133
+		"btnX": 1439, 
+		"btnY": 273
 	},
 	{
 		"label":"Level8",
 		"area": 3,
 		"difficulty":"Medium",
 		"scenario":["ShapesGame", "ShapesGame"],
-		"btnX": 1585, 
-		"btnY": 409
+		"btnX": 1534, 
+		"btnY": 399
 	},
 	{
 		"label":"Level9",
 		"area": 3,
 		"difficulty":"Hard",
 		"scenario":["ShapesGame", "ShapesGame", "ShapesGame"],
-		"btnX": 1814, 
-		"btnY": 499
+		"btnX": 1714, 
+		"btnY": 570
 	},
 	{
 		"label":"Level10",
 		"area": 3,
 		"difficulty":"Boss",
 		"scenario":["ShapesGame", "ShapesGame", "ShapesGame"],
-		"btnX": 1871, 
-		"btnY": 282
+		"btnX": 1797, 
+		"btnY": 209
 	}
 ]
