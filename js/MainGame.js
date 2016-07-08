@@ -23,6 +23,8 @@ var MainGame = {
 		this.addLevelPopup();
 		//add objects to complete popup group
 		this.addCompletePopup();
+		//add campaign end screen
+		this.addCampaignEnd();
 
 		//show popup if a level is completed
 		if(scrManager.getCompleted()) {
@@ -51,7 +53,7 @@ var MainGame = {
 	callLevel: function(btn) {
 		this.lvl_text.setText(btn.data.score+'/'+scrManager.getMaxScore(btn.data.difficulty));
 		this.lvl_token.frame = statusToInt(btn.data.status);
-		this.lvl_start.name = btn.data.label;
+		this.lvl_start.data = btn.data;
 		this.Buttons.setAll('inputEnabled', false);
 		this.lvlPopup.position.setTo(game.camera.x+(game.width-this.lvl_panel.width)/2, (game.height-this.lvl_panel.height)/2);
 		this.lvlPopup.visible = true;
@@ -118,11 +120,12 @@ var MainGame = {
 			f = statusToInt(level.status);
 			//check if the button is locked
 			if (f!=null) {
-				button = game.add.button(level.btnX+60, level.btnY+60, 'btn'+level.difficulty, this.callLevel, this, f+4, f, f+8, f);
+				button = game.add.button(level.btnX, level.btnY, 'btn'+level.difficulty, this.callLevel, this, f+4, f, f+8, f);
 				button.hitArea = new Phaser.Circle(0, 0, button.width);
 				button.anchor.setTo(0.5);
 				button.data = level;
-				if(level.difficulty!='Boss') button.scale.set(0.7);
+				if(level.difficulty=='Boss') button.scale.set(0.8);
+				else button.scale.set(0.6);
 				this.Buttons.add(button);
 			}
 		}
@@ -197,5 +200,9 @@ var MainGame = {
 		this.cmp_bronze.tint = 0x7f7f7f;
 		this.cmp_life.tint = 0x7f7f7f;
 		this.cmpPopup.visible = false;
-	}
+	},
+
+	addCampaignEnd: function() {
+
+	},
 };
