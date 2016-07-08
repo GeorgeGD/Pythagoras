@@ -26,10 +26,10 @@ var PreloadState = {
 		game.load.spritesheet('tokens', 'assets/main_files/tokens.png', 75, 75);
 		game.load.spritesheet('btnStart', 'assets/main_files/btn_start.png', 240, 106);
 		game.load.spritesheet('btnClose', 'assets/main_files/btn_close.png', 210, 106);
-		game.load.spritesheet('btnEasy', 'assets/main_files/lvl_button_easy.png', 157, 159);
-		game.load.spritesheet('btnMedium', 'assets/main_files/lvl_button_medium.png', 157, 159);
-		game.load.spritesheet('btnHard', 'assets/main_files/lvl_button_hard.png', 157, 159);
-		game.load.spritesheet('btnBoss', 'assets/main_files/lvl_button_boss.png', 157, 159);
+		game.load.spritesheet('btnEasy', 'assets/main_files/lvl_button_easy.png', 157, 157);
+		game.load.spritesheet('btnMedium', 'assets/main_files/lvl_button_medium.png', 157, 157);
+		game.load.spritesheet('btnHard', 'assets/main_files/lvl_button_hard.png', 157, 157);
+		game.load.spritesheet('btnBoss', 'assets/main_files/lvl_button_boss.png', 157, 157);
 
 		//menu assets
 		game.load.image('smallPanel', 'assets/small_panel.png');
