@@ -7,7 +7,7 @@ var PreloadState = {
 		this.loadingBar = game.add.group();
 		this.loadingBar.create(0, 0, 'loadingFill');
 		this.loadingBar.create(0, 0, 'loadingFrame');
-		this.loadingBar.position.setTo(game.world.centerX-125, game.world.centerY-125);
+		this.loadingBar.position.setTo(game.world.centerX-141, game.world.centerY-92);
 		this.loadingBar.scale.setTo(0.5);
 		game.load.setPreloadSprite(this.loadingBar.getBottom());
 
@@ -41,7 +41,8 @@ var PreloadState = {
 		game.load.spritesheet('btnHome', 'assets/menu_files/btn_home.png', 100, 100);
 
 		//complete popup
-		game.load.image('cmpBar', 'assets/main_files/reward_bar.jpg');
+		game.load.image('cmpBarFill', 'assets/main_files/rwd_fill.png');
+		game.load.image('cmpBarFrame', 'assets/main_files/rwd_frame.png');
 		game.load.image('cmpPanel', 'assets/main_files/cmp_panel.png');
 		game.load.image('cmpScore', 'assets/main_files/scr_panel_small.png');
 		game.load.spritesheet('cmpTokens', 'assets/main_files/reward_tokens.png', 51, 89);

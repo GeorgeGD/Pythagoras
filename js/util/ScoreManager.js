@@ -7,9 +7,9 @@ function ScoreManager() {
 		  maxBoss	= 1000;
 
 	var totalScore = 0,
-		highScore = 0,
-		diffScore = 0,
+		oldScore = 0,
 		newScore = 0,
+		diffScore = 0,
 		roomCount = 0,
 		prcLevel = 0,
 		lifes = maxLifes,
@@ -18,6 +18,7 @@ function ScoreManager() {
 		areaReq = new Array();
 
 	this.cumulateNumbers = function(level) {
+
 		//calculate area requirements
 		var points = 0;
 		switch (level.difficulty) {
@@ -29,11 +30,13 @@ function ScoreManager() {
 		}
 		if (!areaReq[level.area+1]) areaReq[level.area+1] = 0;
 		areaReq[level.area+1] += points;
+
 		//calculate totalScore
 		totalScore += level.score;
 	};
 
 	this.calculateAreas = function() {
+
 		for (var i=1; i<areaReq.length; i++) {
 			if(areaReq[i]) 
 				for (var j=1; j<i; j++)	
@@ -42,38 +45,41 @@ function ScoreManager() {
 	};
 
 	this.calcRoomScore = function(prc_score) {
+
 		prc_score = formatPrcScore(prc_score);
 		prcLevel += prc_score;
 		roomCount++;
+
 		//add ingot reward
 		ingots.push(prc_score);
 	};
 
 	this.calcLevelScore = function(level) {
-		highScore = level.score;
+
+		oldScore = level.score;
 		var points = this.getMaxScore(level.difficulty);
 		prcLevel = game.math.roundTo(prcLevel/roomCount,-2);
 		newScore = game.math.roundTo(prcLevel*points);
-		if(newScore > highScore) {
-
+		if(newScore > oldScore) {
 			//update TotalScore
-			diffScore = newScore - highScore;
+			diffScore = newScore - oldScore;
 			totalScore += diffScore;
-			highScore = newScore;
+			level.score = newScore;
 		}
+
 		//level completed
 		lvlCompleted = true;
+
 		//dynamic Levels update before MainGame start
-		//eventually move to MainGame animation
-		level.score = highScore;
 		if(prcLevel == 1) {
 			level.status = 'gold';
 			if(lifes<3) lifes++;
 		}
 		else if(prcLevel >= 0.8) level.status = 'silver';
 		else if(prcLevel >= 0.6) level.status = 'bronze';
-		lifes--;
+		else lifes--;
 		updateElementLevelsArray(Levels.indexOf(level)+1, level.score, level.status);
+
 		//check for next area
 		if(totalScore>=areaReq[lvlManager.getArea()+1]) {
 			lvlManager.unlockNextArea();
@@ -81,7 +87,8 @@ function ScoreManager() {
 	};
 
 	this.reset = function() {
-		highScore = 0,
+
+		oldScore = 0,
 		diffScore = 0,
 		newScore = 0,
 		roomCount = 0,
@@ -91,6 +98,7 @@ function ScoreManager() {
 	};
 
 	this.getMaxScore = function(diff) {
+
 		var points = 0;
 		switch (diff) {
 			case 'Easy': 	points = maxEasy; 	break;
@@ -103,10 +111,13 @@ function ScoreManager() {
 	};
 
 	this.campaignRestart = function () {
+
 		//reset lifes
 		lifes = maxLifes;
 		totalScore = 0;
 		lvlManager = new LevelManager();
+
+		//fill level properties with initial data
 		for(var i = 0; i<Levels.length; i++) {
 			//reset score and status
 			var level = Levels[i];
@@ -126,8 +137,8 @@ function ScoreManager() {
 	this.getTotalScore = function() {
 		return totalScore;
 	};
-	this.getHighScore = function() {
-		return highScore;
+	this.getOldScore = function() {
+		return oldScore;
 	};
 	this.getNewScore = function() {
 		return newScore;

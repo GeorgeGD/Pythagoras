@@ -9,10 +9,13 @@ function LevelManager() {
 
 	// Preload function
 	this.loadData = function() {
+
 		var level = null;
 		var servData = null;
+
 		//load level data from our .json file
 		Levels = game.cache.getJSON('levelData');
+
 		//communicate with ScoreManager and determine active area
 		for(var i=0; i<Levels.length; i++) {
 			level = Levels[i];
@@ -24,19 +27,24 @@ function LevelManager() {
 			if(level.status!='locked')
 				if (activeArea < level.area) activeArea = level.area;
 		}
+
+		//finalise final area calculations
 		scrManager.calculateAreas();
 	};
 
 	//start level with label
 	this.startLevel = function(level) {
+
 		cameraPos = game.camera.position;
 		nextScene = 0;
+		scrManager.reset();
 		activeLevel = level;
 		this.startNextScene();
 	};
 
 	//start next scene (state)
 	this.startNextScene = function() {
+
 		//check if level is completed
 		if(nextScene >= activeLevel.scenario.length) {
 			//go to MainGame
@@ -54,6 +62,7 @@ function LevelManager() {
 	};
 
 	this.unlockNextArea = function() {
+		
 		activeArea++;
 		for (var i in Levels) {
 			if (Levels[i].area == activeArea) {
