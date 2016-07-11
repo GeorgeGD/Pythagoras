@@ -105,9 +105,11 @@ function ScoreManager() {
 
 	this.campaignRestart = function () {
 
-		//reset lifes
+		//reset game data to default
 		lifes = maxLifes;
 		totalScore = 0;
+		this.reset();
+		// start a new level manager
 		lvlManager = new LevelManager();
 
 		//fill level properties with initial data
