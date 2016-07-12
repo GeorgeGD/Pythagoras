@@ -218,8 +218,9 @@ var MainGame = {
 		tween.onComplete.add(function() {
 
 			//add objects to layer
-			this.statement = game.add.text(this.endCover.centerX, this.endCover.centerY-120);
+			this.statement = game.add.image(this.endCover.centerX, this.endCover.centerY-150, 'endFlags');
 			this.statement.anchor.setTo(0.5);
+			this.statement.scale.setTo(0.8);
 			this.fScore = game.add.image(this.endCover.centerX-40, this.endCover.centerY-30, 'HUDscore');
 			this.fScore.anchor.setTo(0.5);
 			this.fsText = game.add.text(this.fScore.centerX+12, this.fScore.centerY+3);
@@ -233,13 +234,11 @@ var MainGame = {
 			//assign properties according to condition
 			if(victory) {
 				//player is victorious
-				this.statement.text = "YOU ARE VICTORIOUS!";
-				this.statement.addColor('#009900', 0);
+				this.statement.frame = 0;
 			}
 			else {
 				//player is defeated
-				this.statement.text = "YOU ARE DEFEATED!";
-				this.statement.addColor('#cc0000', 0);
+				this.statement.frame = 1;
 			}
 
 			//add restart button
