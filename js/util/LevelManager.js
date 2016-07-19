@@ -14,11 +14,11 @@ function LevelManager() {
 		var servData = null;
 
 		//load level data from our .json file
-		Levels = game.cache.getJSON('levelData');
+		levels = game.cache.getJSON('levelData');
 
 		//communicate with ScoreManager and determine active area
-		for(var i=0; i<Levels.length; i++) {
-			level = Levels[i];
+		for(var i=0; i<levels.length; i++) {
+			level = levels[i];
 			servData = GetElementLevelsArray(i+1);
 			level.score = servData.Score;
 			level.status = servData.Status;
@@ -47,10 +47,10 @@ function LevelManager() {
 
 		//check if level is completed
 		if(nextScene >= activeLevel.scenario.length) {
-			//go to MainGame
+			//go to CampaignState
 			nextScene = 0;
 			scrManager.calcLevelScore(activeLevel);
-			game.state.start('MainGame');
+			game.state.start('Campaign');
 		} 
 		else {
 			//go to next scene
@@ -64,9 +64,9 @@ function LevelManager() {
 	this.unlockNextArea = function() {
 		
 		activeArea++;
-		for (var i in Levels) {
-			if (Levels[i].area == activeArea) {
-				Levels[i].status = 'open';
+		for (var i in levels) {
+			if (levels[i].area == activeArea) {
+				levels[i].status = 'open';
 			}
 		}
 	};

@@ -57,7 +57,7 @@ var PreloadState = {
 	},
 
 	create: function() {
-		//After preload immediately start MainGame state
-		game.state.start('MainGame');
+		//After preload immediately start CampaignState state
+		game.state.start('Campaign');
 	},
 }

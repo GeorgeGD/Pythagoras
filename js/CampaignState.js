@@ -1,58 +1,59 @@
 /*
-MainGame state - represents the campaign viewport
+Campaign state - represents the campaign viewport
 
 */
 
-var MainGame = {
+var CampaignState = {
 
 	create: function() {
-		//add display objects in z order
-		//set world bounds and ad canvas image
-		game.world.setBounds(0, 0, 2048, 672);
-		game.camera.position = lvlManager.getCameraPos();
-		game.add.image(0, 0, 'canvas');
-		this.cameraEnabled = true;
-		this.PopupView = false;
+	//add display objects in z order
+	//set world bounds and ad canvas image
+	game.world.setBounds(0, 0, 2048, 672);
+	game.camera.position = lvlManager.getCameraPos();
+	game.add.image(0, 0, 'canvas');
+	this.cameraEnabled = true;
+	this.PopupView = false;
 
-		//add level buttons
-		this.addLevelButtons();
-		//add area overlay
-		this.addAreaOverlay();
-		//add objects to level popup group
-		this.addLevelPopup();
-		//add objects to complete popup group
-		this.addCompletePopup();
-		//add objects to HUD group
-		this.addHUD();
+	//add level buttons
+	this.addLevelButtons();
+	//add area overlay
+	this.addAreaOverlay();
+	//add objects to level popup group
+	this.addLevelPopup();
+	//add objects to complete popup group
+	this.addCompletePopup();
+	//add objects to HUD group
+	this.addHUD();
 
-		//show popup if a level is completed
-		if(scrManager.getCompleted()) {
-			this.callComplete();
-		}
-		//First time enter - campaign end condition
-		else {
-			this.checkEndCondition();
-		}
+	//show popup if a level is completed
+	if(scrManager.getCompleted()) {
+		this.callComplete();
+	}
+	//First time enter - campaign end condition
+	else {
+		this.checkEndCondition();
+	}
 
-		//assign events
-		//track pointer position on input
-		game.input.onDown.add(function() {
-			console.log('pointer is down');
-			this.lastposX = game.input.activePointer.x;
-		}, this);
+	//assign events
+	//track pointer position on input
+	game.input.onDown.add(function() {
+		console.log('pointer is down');
+		this.lastposX = game.input.activePointer.x;
+	}, this);
 	},
 
 	update: function() {
 
-		//camera movement
-		var pointer = game.input.activePointer;
-		if (pointer.isDown && this.cameraEnabled) {
-			game.camera.x += this.lastposX-pointer.x;
-			this.lastposX = pointer.x;
-		}
+	//camera movement
+	var pointer = game.input.activePointer;
+	if (pointer.isDown && this.cameraEnabled) {
+		game.camera.x += this.lastposX-pointer.x;
+		this.lastposX = pointer.x;
+	}
 	},
 
 	updateHUD: function() {
+
 		//general hud FX function
 		//this is called after cmpPopup is closed
 		//life tokens FX
@@ -60,6 +61,7 @@ var MainGame = {
 
 		//on poor performance take a life
 		if(scrManager.getPrcLevel()<0.6 && this.lifes.countDead()<3) {
+
 			life = this.lifes.children[this.lifes.countDead()];
 			life.tint = 0x4d4d4d;
 			life.scale.setTo(0.7);
@@ -70,6 +72,7 @@ var MainGame = {
 		
 		//on gold token give a life
 		if(scrManager.getPrcLevel()==1 && this.lifes.countLiving()<3) {
+
 			life = this.lifes.children[this.lifes.countLiving()];
 			life.tint = 0xffffff;
 			life.scale.setTo(1);
@@ -86,7 +89,7 @@ var MainGame = {
 	//level popup
 	callLevel: function(btn) {
 
-		this.lvl_text.setText(btn.data.score+'/'+scrManager.getMaxScore(btn.data.difficulty));
+		this.lvl_text.setText(btn.data.score+'/'+scrManager.MaxScoreToInt(btn.data.difficulty));
 		this.lvl_token.frame = statusToInt(btn.data.status);
 		this.lvl_start.data = btn.data;
 		this.Buttons.setAll('inputEnabled', false);
@@ -104,11 +107,9 @@ var MainGame = {
 		this.cmpPopup.visible = true;
 		this.cameraEnabled = false;
 		this.PopupView = true;
-
-		//tween objects
 		this.cmpPopup.position.setTo(game.camera.x+(game.width-this.cmp_panel.width)/2, (game.height-this.cmp_panel.height)/2);
-		this.cmp_text.text = scrManager.getNewScore()+"/"+scrManager.getMaxScore(lvlManager.getLevel().difficulty);
-		this.cmp_scrDiff.text = "+"+scrManager.getDiffScore();
+		//this.cmp_text.text = scrManager.getNewScore()+"/"+scrManager.MaxScoreToInt(lvlManager.getLevel().difficulty);
+		//this.cmp_scrDiff.text = "+"+scrManager.getDiffScore();
 
 		//check previous score and set earned rewards
 		if(scrManager.getOldScore()>=0.6) {
@@ -126,30 +127,31 @@ var MainGame = {
 		//test with: var ingArray = [1, 1, 1, 1, 1];
 		var ingArray = scrManager.getRoomScores();
 
+		
 		//if the player has earned ingots then create them
 		if(ingArray.length>0) {
 
 			var frame = null;
 			var ingot = null;
 			var width = null;
+			var count = 0;
+
+			ingArray.forEach(function(el) {
+				if(el>=0.6) count++;
+			});
+
 			this.tweens = new Array();
 			var pos = {x: this.cmp_bFill.left, y: this.cmp_bFill.top};
 			//place all ingots
 			for(var i=0; i<ingArray.length; i++) {
 
-				if (ingArray[i]<0.6) { continue; }
-				if (ingArray[i]>=0.6) {
-					frame = 0;
-					width = 0.6*this.cmp_bFill.width/ingArray.length;
-				}
-				if (ingArray[i]>=0.8) {
-					frame = 1;
-					width = 0.8*this.cmp_bFill.width/ingArray.length;
-				}
-				if (ingArray[i]==1) {
-					frame = 2;
-					width = this.cmp_bFill.width/ingArray.length;
-				}
+				if (ingArray[i]<0.6)  { continue;  }
+				if (ingArray[i]>=0.6) { frame = 0; }
+				if (ingArray[i]>=0.8) { frame = 1; }
+				if (ingArray[i]==1)   { frame = 2; } 
+				
+				width = scrManager.getPrcLevel()*this.cmp_bFill.width/count;
+
 				ingot = this.cmpPopup.create(pos.x, pos.y, 'ingots', frame, true);
 				ingot.width = width;
 				ingot.alpha = 0;
@@ -240,7 +242,6 @@ var MainGame = {
 				//player is defeated
 				this.statement.frame = 1;
 			}
-
 			//add restart button
 			this.restart = game.add.button(this.endCover.centerX, this.lboard.bottom+30, 'restart', scrManager.campaignRestart);
 			this.restart.setFrames(0, 1);
@@ -277,17 +278,17 @@ var MainGame = {
 		}
 	},
 
-	//add level buttons to MainGame
+	//add level buttons to CampaignState
 	addLevelButtons: function() {
 
 		this.Buttons = game.add.group();
 		var button = null;
 		var level = null;
 		var f = null;
-
-		for (var i in Levels) {
-			//create the button, set its hitArea to a circle and set its name to the level label
-			level = Levels[i];
+		for (var i in levels) {
+			//create the button, set its hitArea to a circle 
+			//and set its name to the level label
+			level = levels[i];
 			f = statusToInt(level.status);
 			//check if the button is locked
 			if (f!=null) {
@@ -336,7 +337,7 @@ var MainGame = {
 	},
 
 	//level popup object
-	addLevelPopup: function() {	
+	addLevelPopup: function() {
 
 		this.lvlPopup  = game.add.group();
 		this.lvl_panel = game.add.image(0, 0, 'lvlPanel', null, this.lvlPopup);
