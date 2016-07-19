@@ -6,50 +6,50 @@ Campaign state - represents the campaign viewport
 var CampaignState = {
 
 	create: function() {
-	//add display objects in z order
-	//set world bounds and ad canvas image
-	game.world.setBounds(0, 0, 2048, 672);
-	game.camera.position = lvlManager.getCameraPos();
-	game.add.image(0, 0, 'canvas');
-	this.cameraEnabled = true;
-	this.PopupView = false;
+		//add display objects in z order
+		//set world bounds and ad canvas image
+		game.world.setBounds(0, 0, 2048, 672);
+		game.camera.position = lvlManager.getCameraPos();
+		game.add.image(0, 0, 'canvas');
+		this.cameraEnabled = true;
+		this.PopupView = false;
 
-	//add level buttons
-	this.addLevelButtons();
-	//add area overlay
-	this.addAreaOverlay();
-	//add objects to level popup group
-	this.addLevelPopup();
-	//add objects to complete popup group
-	this.addCompletePopup();
-	//add objects to HUD group
-	this.addHUD();
+		//add level buttons
+		this.addLevelButtons();
+		//add area overlay
+		this.addAreaOverlay();
+		//add objects to level popup group
+		this.addLevelPopup();
+		//add objects to complete popup group
+		this.addCompletePopup();
+		//add objects to HUD group
+		this.addHUD();
 
-	//show popup if a level is completed
-	if(scrManager.getCompleted()) {
-		this.callComplete();
-	}
-	//First time enter - campaign end condition
-	else {
-		this.checkEndCondition();
-	}
+		//show popup if a level is completed
+		if(scrManager.getCompleted()) {
+			this.callComplete();
+		}
+		//First time enter - campaign end condition
+		else {
+			this.checkEndCondition();
+		}
 
-	//assign events
-	//track pointer position on input
-	game.input.onDown.add(function() {
-		console.log('pointer is down');
-		this.lastposX = game.input.activePointer.x;
-	}, this);
+		//assign events
+		//track pointer position on input
+		game.input.onDown.add(function() {
+			console.log('pointer is down');
+			this.lastposX = game.input.activePointer.x;
+		}, this);
 	},
 
 	update: function() {
 
-	//camera movement
-	var pointer = game.input.activePointer;
-	if (pointer.isDown && this.cameraEnabled) {
-		game.camera.x += this.lastposX-pointer.x;
-		this.lastposX = pointer.x;
-	}
+		//camera movement
+		var pointer = game.input.activePointer;
+		if (pointer.isDown && this.cameraEnabled) {
+			game.camera.x += this.lastposX-pointer.x;
+			this.lastposX = pointer.x;
+		}
 	},
 
 	updateHUD: function() {
@@ -252,8 +252,6 @@ var CampaignState = {
 			this.restart.anchor.setTo(0.5, 0);
 			this.restart.scale.setTo(0.7);
 		}, this);
-
-
 
 		//start campaign end tween
 		tween.start();
