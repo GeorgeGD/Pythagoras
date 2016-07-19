@@ -73,12 +73,16 @@ var CampaignState = {
 		//on gold token give a life
 		if(scrManager.getPrcLevel()==1 && this.lifes.countLiving()<3) {
 
-			life = this.lifes.children[this.lifes.countLiving()];
-			life.tint = 0xffffff;
-			life.scale.setTo(1);
-			life.alive = true;
-			scrManager.giveLife();
-			//Play FX
+			//check if the life has been given
+			if(scrManager.getOldScore() < scrManager.MaxScoreToInt(lvlManager.getLevel().difficulty)) {
+				
+				life = this.lifes.children[this.lifes.countLiving()];
+				life.tint = 0xffffff;
+				life.scale.setTo(1);
+				life.alive = true;
+				scrManager.giveLife();
+				//Play FX
+			}
 		}
 
 		//check for end of campaign
@@ -108,8 +112,8 @@ var CampaignState = {
 		this.cameraEnabled = false;
 		this.PopupView = true;
 		this.cmpPopup.position.setTo(game.camera.x+(game.width-this.cmp_panel.width)/2, (game.height-this.cmp_panel.height)/2);
-		//this.cmp_text.text = scrManager.getNewScore()+"/"+scrManager.MaxScoreToInt(lvlManager.getLevel().difficulty);
-		//this.cmp_scrDiff.text = "+"+scrManager.getDiffScore();
+		this.cmp_text.text = scrManager.getNewScore()+"/"+scrManager.MaxScoreToInt(lvlManager.getLevel().difficulty);
+		this.cmp_scrDiff.text = "+"+scrManager.getDiffScore();
 
 		//check previous score and set earned rewards
 		if(scrManager.getOldScore()>=0.6) {
