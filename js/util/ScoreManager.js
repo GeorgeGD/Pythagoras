@@ -55,7 +55,7 @@ function ScoreManager() {
 	this.calcLevelScore = function(level) {
 
 		oldScore = level.score;
-		var points = this.getMaxScore(level.difficulty);
+		var points = this.MaxScoreToInt(level.difficulty);
 		prcLevel = game.math.roundTo(prcLevel/rooms.length,-2);
 		newScore = game.math.roundTo(prcLevel*points);
 		if(newScore > oldScore) {
@@ -68,11 +68,11 @@ function ScoreManager() {
 		//level completed
 		lvlCompleted = true;
 
-		//dynamic Levels update before MainGame start
+		//dynamic levels update before CampaignState start
 		if (prcLevel == 1) level.status = 'gold';
 		else if (prcLevel >= 0.8) level.status = 'silver';
 		else if (prcLevel >= 0.6) level.status = 'bronze';
-		updateElementLevelsArray(Levels.indexOf(level)+1, level.score, level.status);
+		updateElementLevelsArray(levels.indexOf(level)+1, level.score, level.status);
 
 		//check for next area
 		if(totalScore>=areaReq[lvlManager.getArea()+1]) {
@@ -90,7 +90,7 @@ function ScoreManager() {
 		rooms = new Array();
 	};
 
-	this.getMaxScore = function(diff) {
+	this.MaxScoreToInt = function(diff) {
 
 		var points = 0;
 		switch (diff) {
@@ -113,21 +113,21 @@ function ScoreManager() {
 		lvlManager = new LevelManager();
 
 		//fill level properties with initial data
-		for(var i = 0; i<Levels.length; i++) {
+		for(var i = 0; i<levels.length; i++) {
 			//reset score and status
-			var level = Levels[i];
+			var level = levels[i];
 			level.score = 0;
 			if(level.area==1) level.status = 'open';
 			else level.status = 'locked';
 			//update server info
 			updateElementLevelsArray(i+1, level.score, level.status);
 		}
-		game.state.start('MainGame');
+		game.state.start('Campaign');
 	};
 
 	//victory conditions
 	this.isWin = function() {
-		return Levels[Levels.length-1].score>0;
+		return levels[levels.length-1].score>0;
 	};
 	this.isLose = function() {
 		return lifes<0;

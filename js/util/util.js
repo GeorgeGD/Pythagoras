@@ -22,15 +22,14 @@ function start(btn) {
 
 //format score to [0;1]
 function formatPrcScore(prc_score) {
-
-	if(prc_score>1) prc_score /= 100;
+	if(prc_score>100) prc_score = 100;
+	if(prc_score>1)   prc_score /= 100;
 	prc_score = game.math.roundTo(prc_score,-2);
 	return prc_score;
 }
 
 //game UI panel and shared menu items
 function addHUDPanel() {
-
 	addPauseCover.call(this);
 	//HUD
 	this.HUD = game.add.group();			
@@ -97,7 +96,7 @@ function addMenuItems() {
 }
 
 //menu functionality
- function callMenu(btn) {
+function callMenu(btn) {
 
 	if(btn.data.popup.visible) btn.data.popup.visible = false;
 	else btn.data.popup.visible = true;
@@ -127,26 +126,28 @@ function callLadder(btn) {
 function callHome(btn) {
 
 	scrManager.reset();
-	if (game.state.current!='MainGame') game.state.start('MainGame');
+	if (game.state.current!='Campaign') game.state.start('Campaign');
 }
 
 //FX functions
 function updateIngotFX(prc_score) {
-
+	//format prc_score to [0;1]
 	prc_score = formatPrcScore(prc_score);
-
+	//bronze ingot
 	if(prc_score==1) {
 		this.HUD_ingot.frame = 2;
 		this.HUD_ingot.scale.setTo(1);
 		this.HUD_ingot.visible = true;
 		return;
 	}
+	//silver ingot
 	if(prc_score>=0.8) {
 		this.HUD_ingot.frame = 1;
 		this.HUD_ingot.scale.setTo(0.8, 1);
 		this.HUD_ingot.visible = true;
 		return;
 	}
+	//gold ingot
 	if(prc_score>=0.6) {
 		this.HUD_ingot.frame = 0;
 		this.HUD_ingot.scale.setTo(0.6, 1);
