@@ -5,7 +5,7 @@ var BootState = {
 
 		//set world and stage settings
 		game.stage.backgroundColor = "#000000";
-		game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+		//game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         game.scale.pageAlignHorizontally = true;
         game.scale.pageAlignVertically = true;
 
