@@ -22,7 +22,9 @@
         <script src="js/shapes_game/TetrisItem.js"></script>
         <script src="js/shapes_game/TweenShaker.js"></script>
         <script src="js/shapes_game/ShapesGame.js"></script>
-        
+        <!-- Distance game source code: author Preslav Kozovski -->
+        <script src="js/distance_game/DistanceGame.js"></script>
+
     </head>
     <body>
         <div id='GameContainer'></div>
@@ -40,6 +42,7 @@
             game.state.add('Preload', PreloadState);
             game.state.add('Campaign', CampaignState);
             game.state.add('ShapesGame', ShapesGame);
+            game.state.add('DistanceGame', DistanceGame);
 
             //starting the game
             game.state.start('Boot');

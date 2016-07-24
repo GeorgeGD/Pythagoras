@@ -112,8 +112,8 @@ var CampaignState = {
 		this.cameraEnabled = false;
 		this.PopupView = true;
 		this.cmpPopup.position.setTo(game.camera.x+(game.width-this.cmp_panel.width)/2, (game.height-this.cmp_panel.height)/2);
-		this.cmp_text.text = scrManager.getNewScore()+"/"+scrManager.MaxScoreToInt(lvlManager.getLevel().difficulty);
-		this.cmp_scrDiff.text = "+"+scrManager.getDiffScore();
+		//this.cmp_text.text = scrManager.getNewScore()+"/"+scrManager.MaxScoreToInt(lvlManager.getLevel().difficulty);
+		//this.cmp_scrDiff.text = "+"+scrManager.getDiffScore();
 
 		//check previous score and set earned rewards
 		if(scrManager.getOldScore()>=0.6) {
@@ -131,7 +131,10 @@ var CampaignState = {
 		//test with: var ingArray = [1, 1, 1, 1, 1];
 		var ingArray = scrManager.getRoomScores();
 
-		
+		ingArray = [1, 0.9, 1, 0.7, 1];
+		this.cmp_text.text = 273+"/"+300;
+		this.cmp_scrDiff.text = "+"+273;
+
 		//if the player has earned ingots then create them
 		if(ingArray.length>0) {
 
@@ -154,7 +157,8 @@ var CampaignState = {
 				if (ingArray[i]>=0.8) { frame = 1; }
 				if (ingArray[i]==1)   { frame = 2; } 
 				
-				width = scrManager.getPrcLevel()*this.cmp_bFill.width/count;
+				//width = scrManager.getPrcLevel()*this.cmp_bFill.width/count;
+				width = 0.91*this.cmp_bFill.width/count;
 
 				ingot = this.cmpPopup.create(pos.x, pos.y, 'ingots', frame, true);
 				ingot.width = width;

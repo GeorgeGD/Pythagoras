@@ -54,6 +54,7 @@ var PreloadState = {
 
 		//Chain-load all game state assets
 		ShapesGame.loadAssets();
+		DistanceGame.loadAssets();
 	},
 
 	create: function() {
