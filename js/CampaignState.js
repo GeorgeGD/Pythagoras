@@ -131,7 +131,7 @@ var CampaignState = {
 		//test with: var ingArray = [1, 1, 1, 1, 1];
 		var ingArray = scrManager.getRoomScores();
 
-		
+
 		//if the player has earned ingots then create them
 		if(ingArray.length>0) {
 

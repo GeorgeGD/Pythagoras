@@ -508,7 +508,10 @@ var ShapesGame = {
 			
 			var tw = game.add.tween(w);
 			tw.to( { alpha: .8 }, 1000, Phaser.Easing.Linear.None, true);
-			tw.onComplete.add(this.AddReplayButton, this);
+			tw.onComplete.add(function(){
+				scrManager.calcRoomScore(this.prcScore);
+				lvlManager.startNextScene();
+			}, this);
 			tw.start();
 			
 			for (var i=0; i < this.myBoxes.length; i++)
@@ -516,9 +519,6 @@ var ShapesGame = {
 				this.myBoxes[i].inputEnabled = false;
 				if (this.myBoxes[i].isEnabled) { this.myBoxes[i].tint = 0xFF0000; }
 			}
-
-			//Calc score
-			scrManager.calcRoomScore(this.prcScore);
 		},
 		
 		AddReplayButton: function ()
@@ -537,7 +537,7 @@ var ShapesGame = {
 			if (this.maxSize < 3) { this.maxSize = 3; }
 
 
-			lvlManager.startNextScene();
+
 		},
 		
 		ReplayButton_Over: function () 
