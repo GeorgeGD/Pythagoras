@@ -25,6 +25,7 @@ var DistanceGame = {
     Shaker: 0,
     YouWL: {},
     howtoplay: null,
+    score: 0,
   //Sounds
     skarcane: null,
     hit: null,
@@ -56,6 +57,7 @@ var DistanceGame = {
       game.load.path = '';
   },
     create: function() {
+      game.world.setBounds(0, 0, 1024, 672);
       game.physics.startSystem(Phaser.Physics.ARCADE);
       this.BG = game.add.sprite(0,0,'BG');
       this.BG.width = game.width;
@@ -97,6 +99,7 @@ var DistanceGame = {
         this.ulei = game.add.sprite(200,this.Ycoord[i],'ulei');
         this.ulei.scale.setTo(2.5,2);
         this.ulei.anchor.set(0,0.5);
+        this.ulei.data.index = i;
         this.Uleite[i] = this.ulei;
 
         this.TextSpeed[i] = game.add.text(240,this.Ycoord[i],0);
@@ -121,8 +124,8 @@ var DistanceGame = {
         this.Butala[i]=this.butalo;
 
         this.ulei.inputEnabled = true;
-        this.ulei.events.onInputDown.add(this.onDown,{index: i}, this);
-        this.ulei.events.onInputUp.add(this.onUp,{index: i}, this);
+        this.ulei.events.onInputDown.add(this.onDown, this);
+        this.ulei.events.onInputUp.add(this.onUp, this);
       };
       this.SetAnswers();
       for (var i = 0; i < 4; i++) {
@@ -152,7 +155,7 @@ var DistanceGame = {
       skarcane = game.add.audio('skarcane');
       hit = game.add.audio('hit');
 
-      this.HTPtext = game.add.text(game.width-200,5, 'Как се играе');
+      /*this.HTPtext = game.add.text(game.width-200,5, 'Как се играе');
       this.HTPtext.inputEnabled = true;
       this.HTPtext.events.onInputDown.add(this.HTPOpen, this);
 
@@ -160,7 +163,7 @@ var DistanceGame = {
       this.howtoplay.anchor.set(0.5);
       this.howtoplay.scale.setTo(0);
       this.howtoplay.inputEnabled = true;
-      this.howtoplay.events.onInputDown.add(this.HTPClose, this);
+      this.howtoplay.events.onInputDown.add(this.HTPClose, this);*/
 
       this.YouWL.win = game.add.sprite(game.width/2,game.height/2,'youwin');
       this.YouWL.win.anchor.set(0.5);
@@ -175,20 +178,34 @@ var DistanceGame = {
       this.YouWL.loose.events.onInputDown.add(this.Continue, this);
 
       //add HUD panel
-      addHUDPanel.call(this); 
+      addHUDPanel.call(this);
+
+      var totalBalls = this.Balls.length+this.Err;
+      this.lifes = game.add.group(this.HUD);
+      this.lifes.createMultiple(totalBalls, 'ball1', 1, true);
+      this.lifes.children.forEach(function(obj){
+        obj.scale.setTo(0.6);
+        obj.anchor.setTo(0.4);
+      },this);
+      this.lifes.align(-1, 1, this.btn_menu.height, this.btn_menu.height, Phaser.CENTER);
+      this.lifes.position.setTo(this.HUD_panel.right+10, this.btn_menu.top);
+      this.lifes.reverse();
+
     },
-    onDown: function(){
+    onDown: function(obj){
+
+      var index = obj.data.index;
       skarcane.loopFull(1);
-      this.TextSpeed[this.index].alpha = 1;
+      this.TextSpeed[index].alpha = 1;
       game.time.events.start();
       this.addSpeed = game.time.events.loop(300, function(){
-        this.Speed[this.index] += 5;
-        this.TextSpeed[this.index].text = this.Speed[this.index].toString();
-        if(this.ProjX[this.index]>0.2)
+        this.Speed[index] += 5;
+        this.TextSpeed[index].text = this.Speed[index].toString();
+        if(this.ProjX[index]>0.2)
         {
-          this.ProjX[this.index] -= 0.02;
-          this.Prujini[this.index].scale.setTo(this.ProjX[this.index],1.2);
-          this.Butala[this.index].x -=2;
+          this.ProjX[index] -= 0.02;
+          this.Prujini[index].scale.setTo(this.ProjX[index],1.2);
+          this.Butala[index].x -=2;
         }
 
 
@@ -197,77 +214,84 @@ var DistanceGame = {
 
 
     },
-    onUp: function(){
+    onUp: function(obj){
+
+      var index = obj.data.index;
       skarcane.stop();
       hit.play();
-      this.TextSpeed[this.index].alpha = 0;
+      this.TextSpeed[index].alpha = 0;
       game.time.events.stop();
-      this.ProjX[this.index] = 1.2;
-      this.Prujini[this.index].scale.setTo(this.ProjX[this.index]);
-      this.Butala[this.index].x = 125;
+      this.ProjX[index] = 1.2;
+      this.Prujini[index].scale.setTo(this.ProjX[index]);
+      this.Butala[index].x = 125;
 
-      this.SpeedBall = this.Speed[this.index]*this.Time[this.index]*this.BallsSpeed[this.index];
+      this.SpeedBall = this.Speed[index]*this.Time[index]*this.BallsSpeed[index];
 
       if(this.SpeedBall>200)
-      {
-          this.Uleite[this.index].inputEnabled = false;
+      {     
+          var life = this.lifes.getFirstAlive();  
+          life.alive = false;
+          life.visible = false;
+
+          this.Uleite[index].inputEnabled = false;
           this.timeValue = {};
-          this.timeValue.score = this.Time[this.index];
-          var timeTween = game.add.tween(this.timeValue).to({score: 0}, this.Time[this.index]*500, "Linear", true);
+          this.timeValue.score = this.Time[index];
+          var timeTween = game.add.tween(this.timeValue).to({score: 0}, this.Time[index]*500, "Linear", true);
           timeTween.onUpdateCallback(function(){
-            this.TimeText[this.index].text = Math.floor(this.timeValue.score);
+            this.TimeText[index].text = Math.floor(this.timeValue.score);
           }, this);
 
-          var dupkaTween = game.add.tween(this.Dupki[this.index].scale).to({x: 1,}, this.Time[this.index]*500, 'Linear', true);
+          var dupkaTween = game.add.tween(this.Dupki[index].scale).to({x: 1,}, this.Time[index]*500, 'Linear', true);
 
-          var tween1 = game.add.tween(this.Balls[this.index]).to( { x: this.SpeedBall-34}, this.Time[this.index]*500, 'Linear', true);
-          var tween2 = game.add.tween(this.Balls[this.index]).to( { alpha: 0 }, 2000, "Linear", false);
+          var tween1 = game.add.tween(this.Balls[index]).to( { x: this.SpeedBall-34}, this.Time[index]*500, 'Linear', true);
+          var tween2 = game.add.tween(this.Balls[index]).to( { alpha: 0 }, 2000, "Linear", false);
           tween1.chain(tween2);
           tween2.onComplete.add(function(){
 
             //update ingot
-            updateIngotFX.call(this, this.prcScore);
+            
 
-            this.Dupki[this.index].scale.x = 0;
-            if(this.SpeedBall===this.Otgovori[this.index])
+            this.Dupki[index].scale.x = 0;
+            if(this.SpeedBall===this.Otgovori[index])
             {
-              this.TimeText[this.index].text = '';
-              this.UleiScor -=1;
-              game.add.tween(this.Mostove[this.index].scale).to({x: this.MScaleX, y: this.MScaleY}, 2000, 'Linear', true);
+                this.TimeText[index].text = '';
+                this.UleiScor -=1;
+                this.score++;
+                game.add.tween(this.Mostove[index].scale).to({x: this.MScaleX, y: this.MScaleY}, 2000, 'Linear', true);
 
-              this.prcScore = 0;
-              if(this.UleiScor<=0 && this.Shaker < this.Err)
-              {
-                this.prcScore = 1;
-                if(this.Shaker==0)
+                //this.prcScore = 0;
+                if(this.UleiScor<=0 && this.Shaker < this.Err)
                 {
-                  this.prcScore =2;
+                  //this.prcScore = 1;
+                  if(this.Shaker==0)
+                  {
+                    //this.prcScore =2;
+                  }
                 }
-              }
-              this.Medals[this.prcScore].alpha=1;
+                //this.Medals[this.prcScore].alpha=1;
 
-              if(this.UleiScor==0)//youwin
-              {
-                var tweenWin = game.add.tween(this.YouWL.win.scale).to( { x: 1, y: 1 }, 2000, Phaser.Easing.Elastic.Out, true, 2000);
-              }
+                if(this.UleiScor==0)//youwin
+                {
+                  this.endScreen();
+                }
 
             }
             else
             {
-              this.Uleite[this.index].inputEnabled = true;
-              this.Balls[this.index].x = 145;
-              this.Balls[this.index].y = this.Ycoord[this.index];
-              this.Balls[this.index].alpha = 1;
-              this.TimeText[this.index].text = this.Time[this.index];
+              this.Uleite[index].inputEnabled = true;
+              this.Balls[index].x = 145;
+              this.Balls[index].y = this.Ycoord[index];
+              this.Balls[index].alpha = 1;
+              this.TimeText[index].text = this.Time[index];
 
               this.Shaker += 1;
-              if(this.Shaker>this.Err)//You Loose
+              if(this.lifes.countLiving()<=0)//You Loose
               {
                 for (var i = 0; i < 4; i++) {
                   game.add.tween(this.Mostove[i].scale).to({x: 0, y: 0}, 1000, 'Linear', true);
                 };
-                this.prcScore = 0;
-                var tweenLoose = game.add.tween(this.YouWL.loose.scale).to( { x: 1, y: 1 }, 2000, Phaser.Easing.Elastic.Out, true, 2000);
+                //this.prcScore = 0;
+                this.endScreen();
               }
               for (var i = 0; i < 4; i++) {        
                 if (i%2===0)var tween1 = game.add.tween(this.Mostove[i]).to({angle: + this.Shaker }, 100, "Linear", true, 0, -1, true);
@@ -276,11 +300,17 @@ var DistanceGame = {
               
 
             }
-
+            // update score
+            if(this.lifes.countDead()>0) this.prcScore = this.score/this.lifes.countDead();
+            else this.prcScore = 0;
+            updateIngotFX.call(this, this.prcScore);
+            console.log(this.prcScore);
           },this);
       }
-      this.Speed[this.index] = 0;
-      this.TextSpeed[this.index].text = '0';
+      this.Speed[index] = 0;
+      this.TextSpeed[index].text = '0';
+
+
     },
     SetAnswers: function(){
       for(var i=0; i<4; i++)
@@ -304,5 +334,18 @@ var DistanceGame = {
     },
     HTPClose: function(){
       this.howtoplay.scale.setTo(0);
+    },
+
+    endScreen: function() {
+      var w = game.add.sprite(game.world.centerX, game.world.centerY, 'white');
+      w.alpha = 0;
+      w.anchor.setTo(0.5, 0.5);
+      w.width = game.width;
+      w.height = game.height;
+      
+      var tw = game.add.tween(w);
+      tw.to( { alpha: .8 }, 2000, Phaser.Easing.Linear.None, true);
+      tw.onComplete.add(this.Continue, this);
+      tw.start();
     },
 };
