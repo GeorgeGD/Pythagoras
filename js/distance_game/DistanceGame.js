@@ -260,11 +260,9 @@ var DistanceGame = {
             {
                 this.TimeText[index].text = '';
                 this.UleiScor -=1;
-                var most = game.add.tween(this.Mostove[index].scale).to({x: this.MScaleX, y: this.MScaleY}, 2000, 'Linear', true);
+                this.score++;
 
-                most.onStart.add(function(){
-                  this.score++;
-                },this);
+                var most = game.add.tween(this.Mostove[index].scale).to({x: this.MScaleX, y: this.MScaleY}, 2000, 'Linear', true);
 
                 most.onComplete.add(function(){
                   this.alive = true;
@@ -302,6 +300,13 @@ var DistanceGame = {
               };
             }
 
+            //check score
+            console.log("score: "+this.score);
+            if(this.lifes.countDead()>0) this.prcScore = this.score/this.lifes.countDead();
+            else this.prcScore = 0;
+            updateIngotFX.call(this, this.prcScore);
+            console.log("prc: "+this.prcScore);
+
             if(this.lifes.countLiving()<=0)
               {
                 for (var i = 0; i < 4; i++) {
@@ -318,9 +323,7 @@ var DistanceGame = {
     },
 
     update: function(){
-            if(this.lifes.countDead()>0) this.prcScore = this.score/this.lifes.countDead();
-            else this.prcScore = 0;
-            updateIngotFX.call(this, this.prcScore);
+
     },
 
     SetAnswers: function(){
