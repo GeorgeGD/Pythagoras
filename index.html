@@ -24,6 +24,8 @@
         <script src="js/shapes_game/ShapesGame.js"></script>
         <!-- Distance game source code: author Preslav Kozovski -->
         <script src="js/distance_game/DistanceGame.js"></script>
+        <!-- Market game source code: author Zlatin Vulchev -->
+        <script src="js/market_game/MarketGame.js"></script>
 
     </head>
     <body>
@@ -43,6 +45,7 @@
             game.state.add('Campaign', CampaignState);
             game.state.add('ShapesGame', ShapesGame);
             game.state.add('DistanceGame', DistanceGame);
+            game.state.add('MarketGame', MarketGame);
 
             //starting the game
             game.state.start('Boot');

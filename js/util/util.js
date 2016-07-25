@@ -133,6 +133,7 @@ function callHome(btn) {
 function updateIngotFX(prc_score) {
 	//format prc_score to [0;1]
 	prc_score = formatPrcScore(prc_score);
+	this.HUD_ingot.visible = false;
 	//bronze ingot
 	if(prc_score==1) {
 		this.HUD_ingot.frame = 2;

@@ -59,6 +59,9 @@ var DistanceGame = {
     create: function() {
       game.world.setBounds(0, 0, 1024, 672);
       game.physics.startSystem(Phaser.Physics.ARCADE);
+      this.score = 0;
+      this.prcScore = 0;
+      this.Shaker = 0;
       this.BG = game.add.sprite(0,0,'BG');
       this.BG.width = game.width;
       this.BG.height = game.height;
@@ -94,6 +97,7 @@ var DistanceGame = {
         this.most = game.add.sprite(this.XmostCoord[i],game.height/2+31,'most');
         this.most.anchor.set(0.5);
         this.most.scale.setTo(0);
+        this.most.alive = false;
         this.Mostove[i]=this.most;
 
         this.ulei = game.add.sprite(200,this.Ycoord[i],'ulei');
@@ -179,6 +183,8 @@ var DistanceGame = {
 
       //add HUD panel
       addHUDPanel.call(this);
+      this.gameSuccessWav = game.add.audio('success');
+      this.gameOverWav = game.add.audio('gameover');
 
       var totalBalls = this.Balls.length+this.Err;
       this.lifes = game.add.group(this.HUD);
@@ -190,6 +196,7 @@ var DistanceGame = {
       this.lifes.align(-1, 1, this.btn_menu.height, this.btn_menu.height, Phaser.CENTER);
       this.lifes.position.setTo(this.HUD_panel.right+10, this.btn_menu.top);
       this.lifes.reverse();
+
 
     },
     onDown: function(obj){
@@ -248,33 +255,37 @@ var DistanceGame = {
           tween1.chain(tween2);
           tween2.onComplete.add(function(){
 
-            //update ingot
-            
-
             this.Dupki[index].scale.x = 0;
             if(this.SpeedBall===this.Otgovori[index])
             {
                 this.TimeText[index].text = '';
                 this.UleiScor -=1;
-                this.score++;
-                game.add.tween(this.Mostove[index].scale).to({x: this.MScaleX, y: this.MScaleY}, 2000, 'Linear', true);
+                var most = game.add.tween(this.Mostove[index].scale).to({x: this.MScaleX, y: this.MScaleY}, 2000, 'Linear', true);
 
-                //this.prcScore = 0;
-                if(this.UleiScor<=0 && this.Shaker < this.Err)
-                {
-                  //this.prcScore = 1;
-                  if(this.Shaker==0)
-                  {
-                    //this.prcScore =2;
+                most.onStart.add(function(){
+                  this.score++;
+                },this);
+
+                most.onComplete.add(function(){
+                  this.alive = true;
+                }, this.Mostove[index], 1);
+
+                most.onComplete.add(function(){
+                  this.isWin = true;
+                  for(var i=0; i<this.Mostove.length; i++){
+                    if(!this.Mostove[i].alive) {
+                      this.isWin = false;
+                      break;
+                    }
                   }
-                }
-                //this.Medals[this.prcScore].alpha=1;
+                  if(this.isWin)
+                  {
+                    this.endScreen();
+                    this.gameSuccessWav.play();
+                  }
+                }, this, 0);
 
-                if(this.UleiScor==0)//youwin
-                {
-                  this.endScreen();
-                }
-
+                most.start();
             }
             else
             {
@@ -283,35 +294,35 @@ var DistanceGame = {
               this.Balls[index].y = this.Ycoord[index];
               this.Balls[index].alpha = 1;
               this.TimeText[index].text = this.Time[index];
-
               this.Shaker += 1;
-              if(this.lifes.countLiving()<=0)//You Loose
+              //check lose
+              for (var i = 0; i < 4; i++) {        
+                if (i%2===0)var tween1 = game.add.tween(this.Mostove[i]).to({angle: + this.Shaker }, 100, "Linear", true, 0, -1, true);
+                else var tween1 = game.add.tween(this.Mostove[i]).to({angle: - this.Shaker }, 100, "Linear", true, 0, -1, true);
+              };
+            }
+
+            if(this.lifes.countLiving()<=0)
               {
                 for (var i = 0; i < 4; i++) {
                   game.add.tween(this.Mostove[i].scale).to({x: 0, y: 0}, 1000, 'Linear', true);
                 };
                 //this.prcScore = 0;
                 this.endScreen();
+                this.gameOverWav.play();
               }
-              for (var i = 0; i < 4; i++) {        
-                if (i%2===0)var tween1 = game.add.tween(this.Mostove[i]).to({angle: + this.Shaker }, 100, "Linear", true, 0, -1, true);
-                else var tween1 = game.add.tween(this.Mostove[i]).to({angle: - this.Shaker }, 100, "Linear", true, 0, -1, true);
-              };
-              
-
-            }
-            // update score
-            if(this.lifes.countDead()>0) this.prcScore = this.score/this.lifes.countDead();
-            else this.prcScore = 0;
-            updateIngotFX.call(this, this.prcScore);
-            console.log(this.prcScore);
           },this);
       }
       this.Speed[index] = 0;
       this.TextSpeed[index].text = '0';
-
-
     },
+
+    update: function(){
+            if(this.lifes.countDead()>0) this.prcScore = this.score/this.lifes.countDead();
+            else this.prcScore = 0;
+            updateIngotFX.call(this, this.prcScore);
+    },
+
     SetAnswers: function(){
       for(var i=0; i<4; i++)
       {

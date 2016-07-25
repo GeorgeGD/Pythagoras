@@ -3,7 +3,7 @@
 		"label":"Level1",
 		"area": 1,
 		"difficulty":"Easy",
-		"scenario":["DistanceGame"],
+		"scenario":["ShapesGame", "DistanceGame", "MarketGame", "DistanceGame", "ShapesGame"],
 		"btnX": 349, 
 		"btnY": 352
 	},
@@ -11,7 +11,7 @@
 		"label":"Level2",
 		"area": 1,
 		"difficulty":"Easy",
-		"scenario":["ShapesGame"],
+		"scenario":["MarketGame", "ShapesGame", "DistanceGame", "ShapesGame", "ShapesGame"],
 		"btnX": 467,
 		"btnY": 513 
 	},
