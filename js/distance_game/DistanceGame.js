@@ -66,13 +66,13 @@ var DistanceGame = {
       this.BG.width = game.width;
       this.BG.height = game.height;
 
-      this.plt = game.add.sprite(0,game.height/2+31,'platform');
+      /*this.plt = game.add.sprite(0,game.height/2+31,'platform');
       this.plt.anchor.set(0.5);
       this.plt.scale.setTo(1,2);
 
       this.plt = game.add.sprite(game.width,game.height/2+31,'platform');
       this.plt.anchor.set(0.5);
-      this.plt.scale.setTo(1,2);
+      this.plt.scale.setTo(1,2);*/
 
       this.bronze = game.add.sprite(170,40,'Bronze');
       this.bronze.anchor.set(0.5);
@@ -144,7 +144,7 @@ var DistanceGame = {
         this.forNumbers.anchor.set(0.5);
         for (var j = 0; j < 3; j++) {
           this.OtgI = this.Otgovori[i].toString()[j];
-          this.numb = game.add.sprite(this.Otgovori[i]+j*15-15,this.Ycoord[i]-40,this.OtgI);
+          this.numb = game.add.sprite(this.Otgovori[i]+j*15-15,this.Ycoord[i]-33,this.OtgI);
           this.numb.anchor.set(0.5);
           this.numb.scale.setTo(0.05);
         };
