@@ -149,8 +149,9 @@ var DistanceGame = {
           this.numb.scale.setTo(0.05);
         };
 
-        this.timeText = game.add.text(this.Otgovori[i],this.Ycoord[i],this.Time[i]);
+        this.timeText = game.add.text(this.Otgovori[i],this.Ycoord[i]+5,this.Time[i]);
         this.timeText.anchor.set(0.5);
+        this.timeText.addColor('white', 0);
         this.TimeText[i]=this.timeText;
         this.Balls[i].bringToTop();
         this.Butala[i].bringToTop();
